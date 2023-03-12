@@ -1,0 +1,4 @@
+# Product_name Price Amount
+milk 60 20
+cola 115 4.5
+bread 30.5 100
