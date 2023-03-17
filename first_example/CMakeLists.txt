@@ -5,9 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CURRENT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
-set(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/storage.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/product.cpp
+file(GLOB SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/interface/*.h
             ${TEST_DIR}/test.cpp)
 
 message("\nShowing Cmake variables:")
@@ -18,8 +17,8 @@ message("CMAKE_SOURCE_DIR: " ${CMAKE_SOURCE_DIR})
 message("CMAKE_RUNTIME_OUTPUT_DIRECTORY: " ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 message("CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR} "\n")
 
-add_executable(Storage ${SOURCES})
-target_include_directories(Storage PUBLIC ${CMAKE_SOURCE_DIR}/include
+add_executable(${PROJECT_NAME} ${SOURCE})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include
                                           ${TEST_DIR})
 
 #get_cmake_property(_variableNames VARIABLES)
