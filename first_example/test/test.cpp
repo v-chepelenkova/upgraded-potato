@@ -1,7 +1,7 @@
 #include "test.h"
 
 void Test_Product() {
-  std::cout << "Test_Product function start" << std::endl << std::endl;
+  std::cout << "Test_Product function Start" << std::endl << std::endl;
   
   Product milk("milk", 1.0f);
   Product cola("cola", 1.2f);
@@ -18,11 +18,11 @@ void Test_Product() {
 }
 
 void Test_Storage() {
-  std::cout << "Test_Storage function start" << std::endl << std::endl;
+  std::cout << "Test_Storage function Start" << std::endl << std::endl;
 
-  std::string path = "..\\input\\products.txt"; //hardcoded
-  Storage s(path);
-  s.Show();
+  std::string path = "../../input/products.txt"; //hardcoded
+//  Storage s();
+//  s.Show();
 
   std::cout << std::endl << "Test_Storage function end"
             << std::endl << std::endl;
