@@ -5,20 +5,24 @@
 
 #include "controller.h"
 #include "product.h"
-#include "interface/observable.h"
-#include "interface/observer.h"
+#include "thief.h"
+#include "../src/interface/inhabitant.h"
+#include "../src/interface/model.h"
+#include "../src/interface/observer.h"
 
-class Observable;
 class Observer;
 
-class Storage : public Observable {
+class Storage : public Model {
  public:
   Storage();
-  void DeliverGoods(const std::string &input_path);
+  void Step();
   void Show() const;
   void AddObserver(Observer *observer);
   void RemoveObserver(Observer *observer);
  private:
-  std::vector<Product> products_;
-  void NotifyObservers(const std::vector<Product> &context);
+  Thief thief_;
+  std::string deliveryFilepath = "../../input/products.txt";
+  void NotifyObservers(const std::vector<Inhabitant *> &context);
+  void DeliverGoods(const std::string &input_path);
+  void Steal();
 };

@@ -14,11 +14,12 @@ Controller::~Controller() {
   delete model_;
 };
 
-void Controller::Start(const std::string &input_path) {
+void Controller::Start() {
   model_->AddObserver(this);
-  model_->DeliverGoods(input_path);
+  // TODO: add a loop here for system to evolve
+  model_->Step();
 }
 
-void Controller::Update(const std::vector<Product> &context) {
+void Controller::Update(const std::vector<Inhabitant *> &context) {
   view_->Refresh(context);
 }

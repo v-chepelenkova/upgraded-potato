@@ -3,7 +3,7 @@
 #include "product.h"
 #include "storage.h"
 #include "console_view.h"
-#include "interface/observer.h"
+#include "../src/interface/observer.h"
 
 class Observer;
 class Storage;
@@ -13,8 +13,8 @@ class Controller : public Observer {
  public:
   Controller();
   ~Controller();
-  void Start(const std::string &input_path);
-  void Update(const std::vector<Product> &context);
+  void Start();
+  void Update(const std::vector<Inhabitant *> &context);
  private:
   Storage* model_;
   ConsoleView* view_;

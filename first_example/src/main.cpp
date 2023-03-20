@@ -2,6 +2,6 @@
 
 int main() {
   Controller controller;
-  controller.Start("../../input/products.txt");
+  controller.Start();
   return 0;
 }
