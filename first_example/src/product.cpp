@@ -7,7 +7,7 @@ Product::Product(const std::string &name, const float &price) {
   name_ = name;
   price_ = price;
   amount_ = 0.0f;
-  type = PRODUCT;
+  type_ = PRODUCT;
   std::cout << name_ + " is here!" << std::endl;
 }
 
@@ -16,7 +16,7 @@ Product::Product(const std::string &name, const float &price,
   name_ = name;
   price_ = price;
   amount_ = amount;
-  type = PRODUCT;
+  type_ = PRODUCT;
   std::cout << name_ + " is here!" << std::endl;
 }
 
@@ -51,7 +51,8 @@ void Product::InteractWithSpace() {
 void Product::InteractWithInhabitant(Inhabitant *that) {
   std::string message;
   switch (that->GetType()) {
-    case PRODUCT:message = this->name_ + " meets " + dynamic_cast<Product *>(that)->name_;
+    case PRODUCT:
+      message = this->name_ + " meets " + dynamic_cast<Product *>(that)->name_;
       std::cout << message << std::endl;
       break;
     case THIEF:dynamic_cast<Thief *>(that)->InteractWithInhabitant(this);

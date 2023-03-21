@@ -9,5 +9,5 @@ class Thief : public Inhabitant {
   void InteractWithInhabitant(Inhabitant* that);
   void Show() const;
  private:
-  float luck;
+  float luck_;
 };

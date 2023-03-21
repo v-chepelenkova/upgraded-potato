@@ -7,7 +7,7 @@ Storage::Storage() {
 }
 
 void Storage::Step() {
-  DeliverGoods(deliveryFilepath);
+  DeliverGoods(deliveryFilepath_);
   Steal();
 }
 
@@ -30,7 +30,10 @@ void Storage::NotifyObservers(const std::vector<Inhabitant *> &context) {
 }
 
 void Storage::RemoveObserver(Observer *observer) {
-  auto candidate = std::find(observers_.begin(), observers_.end(), observer);
+  auto candidate = std::find(
+      observers_.begin(),
+      observers_.end(),
+      observer);
   if(candidate != observers_.end()) {
     observers_.erase(candidate);
   }
