@@ -1,6 +1,14 @@
 #pragma once
 
 #include "inhabitant.h"
+#include "attributes.h"
+
+template <>
+class Attributes<THIEF> {
+ public:
+  float luck_;
+};
+
 
 class Thief : public Inhabitant {
  public:
@@ -9,5 +17,6 @@ class Thief : public Inhabitant {
   void InteractWithInhabitant(Inhabitant* that);
   void Show() const;
  private:
-  float luck_;
+  Attributes<THIEF> attr_;
+  //float luck;
 };

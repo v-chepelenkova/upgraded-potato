@@ -5,8 +5,7 @@
 #include "product.h"
 
 Thief::Thief() {
-  luck_ = 0.7;
-  type_ = THIEF;
+  attr_.luck_ = 0.7f;
   std::cout << "A thief is here" << std::endl;
 }
 
@@ -33,5 +32,5 @@ void Thief::InteractWithInhabitant(Inhabitant* that) {
 }
 
 void Thief::Show() const {
-  std::cout << "Thief: " << luck_ * 100 << "% lucky" << std::endl;
+  std::cout << "Thief: " << attr_.luck_ * 100 << "% lucky" << std::endl;
 }

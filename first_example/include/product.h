@@ -4,6 +4,15 @@
 #include <iostream>
 
 #include "inhabitant.h"
+#include "attributes.h"
+
+template <>
+class Attributes<PRODUCT> {
+ public:
+  std::string name_;
+  float price_;
+  float amount_;
+};
 
 class Product : public Inhabitant {
  public:
@@ -22,7 +31,8 @@ class Product : public Inhabitant {
   void Show() const;
 
  private:
-  std::string name_;
-  float price_;
-  float amount_;
+  Attributes<PRODUCT> attr_;
+  //std::string name_;
+  //float price_;
+  //float amount_;
 };
