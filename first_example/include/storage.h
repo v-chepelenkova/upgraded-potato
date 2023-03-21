@@ -6,9 +6,9 @@
 #include "controller.h"
 #include "product.h"
 #include "thief.h"
-#include "../src/interface/inhabitant.h"
-#include "../src/interface/model.h"
-#include "../src/interface/observer.h"
+#include "inhabitant.h"
+#include "model.h"
+#include "observer.h"
 
 class Observer;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/interface/inhabitant.h"
+#include "inhabitant.h"
 
 class Thief : public Inhabitant {
  public:

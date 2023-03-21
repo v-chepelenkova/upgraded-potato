@@ -1,6 +1,6 @@
 #include "console_view.h"
 
-#include "interface/inhabitant.h"
+#include "inhabitant.h"
 
 void ConsoleView::Refresh(const std::vector<Inhabitant *> &context) {
   for (auto & item : context) {

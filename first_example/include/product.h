@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-#include "../src/interface/inhabitant.h"
+#include "inhabitant.h"
 
 class Product : public Inhabitant {
  public:

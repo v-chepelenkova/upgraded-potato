@@ -3,7 +3,7 @@
 #include "product.h"
 #include "storage.h"
 #include "console_view.h"
-#include "../src/interface/observer.h"
+#include "observer.h"
 
 class Observer;
 class Storage;

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "product.h"
-#include "../src/interface/view.h"
+#include "view.h"
 
 class View;
 
