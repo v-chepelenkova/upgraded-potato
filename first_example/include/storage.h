@@ -14,15 +14,15 @@ class Observer;
 
 class Storage : public Model {
  public:
-  Storage();
+  Storage(const std::string &input_path);
   void Step();
   void Show() const;
   void AddObserver(Observer *observer);
   void RemoveObserver(Observer *observer);
  private:
   Thief thief_;
-  std::string deliveryFilepath = "../input/products.txt";
+  std::string deliveryFilepath_;
   void NotifyObservers(const std::vector<Inhabitant *> &context);
-  void DeliverGoods(const std::string &input_path);
+  void DeliverGoods();
   void Steal();
 };

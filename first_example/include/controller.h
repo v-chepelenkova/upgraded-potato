@@ -11,7 +11,7 @@ class ConsoleView;
 
 class Controller : public Observer {
  public:
-  Controller();
+  Controller(const std::string &input_path);
   ~Controller();
   void Start();
   void Update(const std::vector<Inhabitant *> &context);

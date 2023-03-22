@@ -1,7 +1,7 @@
 #include "test.h"
 
 int main() {
-  Controller controller;
+  Controller controller("../input/products.txt");
   controller.Start();
   return 0;
 }

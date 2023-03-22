@@ -1,10 +1,11 @@
 #include "controller.h"
 
 #include <iostream>
+#include <string>
 
-Controller::Controller() {
+Controller::Controller(const std::string &input_path) {
   std::cout << "Hello from controller" << std::endl;
-  model_ = new Storage();
+  model_ = new Storage(input_path);
   view_ = new ConsoleView();
 }
 

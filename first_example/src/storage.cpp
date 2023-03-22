@@ -2,12 +2,13 @@
 
 #include "storage.h"
 
-Storage::Storage() {
+Storage::Storage(const std::string &input_path) {
+  deliveryFilepath_ = input_path;
   std::cout << "I'm storage and I was created!" << std::endl;
 }
 
 void Storage::Step() {
-  DeliverGoods(deliveryFilepath_);
+  DeliverGoods();
   Steal();
 }
 
@@ -39,8 +40,8 @@ void Storage::RemoveObserver(Observer *observer) {
   }
 }
 
-void Storage::DeliverGoods(const std::string &input_path) {
-  std::ifstream input_file(input_path);
+void Storage::DeliverGoods() {
+  std::ifstream input_file(deliveryFilepath_);
   std::string name;
   float price;
   float amount;
@@ -59,7 +60,7 @@ void Storage::DeliverGoods(const std::string &input_path) {
     NotifyObservers(inhabitants_);
     std::cout << "Observers are notified" << std::endl;
   } else {
-    std::cout << "Can't open file " << input_path << std::endl;
+    std::cout << "Can't open file " << deliveryFilepath_ << std::endl;
   }
 }
 
