@@ -7,5 +7,5 @@
 
 class Observer {
  public:
-  virtual void Update(const std::vector<Inhabitant *> &context) = 0;
+  virtual void Update(Inhabitant *context) = 0;
 };

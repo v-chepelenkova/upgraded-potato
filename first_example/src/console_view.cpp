@@ -2,8 +2,6 @@
 
 #include "inhabitant.h"
 
-void ConsoleView::Refresh(const std::vector<Inhabitant *> &context) {
-  for (auto & item : context) {
-    item->Show();
-  }
+void ConsoleView::Refresh(Inhabitant *context) {
+    context->Show();
 }

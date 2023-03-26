@@ -14,7 +14,7 @@ class Controller : public Observer {
   Controller(const std::string &input_path);
   ~Controller();
   void Start();
-  void Update(const std::vector<Inhabitant *> &context);
+  void Update(Inhabitant *context);
  private:
   Storage* model_;
   ConsoleView* view_;

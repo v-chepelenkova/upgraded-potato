@@ -9,5 +9,5 @@ class View;
 
 class ConsoleView : public View {
  public:
-  void Refresh(const std::vector<Inhabitant *> &context);
+  void Refresh(Inhabitant *context);
 };

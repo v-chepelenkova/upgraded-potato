@@ -25,7 +25,7 @@ void Storage::AddObserver(Observer *observer) {
 }
 
 // TODO: add events instead of sharing private members directly
-void Storage::NotifyObservers(const std::vector<Inhabitant *> &context) {
+void Storage::NotifyObservers(Inhabitant *context) {
   for (auto & observer : observers_) {
     observer->Update(context);
   }
@@ -56,10 +56,9 @@ void Storage::DeliverGoods() {
         iss >> amount;
         //Product a(name, price, amount);
         products_.push_back(new Product(name, price, amount));
+        NotifyObservers(products_.back());
       }
     }
-    NotifyObservers(inhabitants_);
-    std::cout << "Observers are notified" << std::endl;
   } else {
     std::cout << "Can't open file " << deliveryFilepath_ << std::endl;
   }

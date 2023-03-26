@@ -11,5 +11,5 @@ class Observable {
   virtual void RemoveObserver(Observer *observer) = 0;
  protected:
   std::vector<Observer*> observers_;
-  virtual void NotifyObservers(const std::vector<Inhabitant*> &context) = 0;
+  virtual void NotifyObservers(Inhabitant *context) = 0;
 };

@@ -21,6 +21,6 @@ void Controller::Start() {
   model_->Step();
 }
 
-void Controller::Update(const std::vector<Inhabitant *> &context) {
+void Controller::Update(Inhabitant *context) {
   view_->Refresh(context);
 }
