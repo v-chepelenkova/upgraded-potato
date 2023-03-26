@@ -21,8 +21,8 @@ class Storage : public Model {
   void RemoveObserver(Observer *observer);
  private:
   Thief thief_;
+  std::vector<Product*> products_;
   std::string deliveryFilepath_;
   void NotifyObservers(const std::vector<Inhabitant *> &context);
   void DeliverGoods();
-  void Steal();
 };

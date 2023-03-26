@@ -2,6 +2,7 @@
 
 #include "inhabitant.h"
 #include "attributes.h"
+#include "product.h"
 
 template <>
 class Attributes<THIEF> {
@@ -13,10 +14,9 @@ class Attributes<THIEF> {
 class Thief : public Inhabitant {
  public:
   Thief();
-  void InteractWithSpace();
-  void InteractWithInhabitant(Inhabitant* that);
+  void Steal(Product* that);
   void Show() const;
  private:
   Attributes<THIEF> attr_;
-  //float luck;
+
 };

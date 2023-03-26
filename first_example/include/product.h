@@ -26,8 +26,6 @@ class Product : public Inhabitant {
   void ChangeAmount(const float &new_amount);
   void Add(const float &add);
 
-  void InteractWithSpace();
-  void InteractWithInhabitant(Inhabitant* that);
   void Show() const;
 
  private:

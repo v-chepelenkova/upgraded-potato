@@ -42,21 +42,6 @@ void Product::Add(const float &add) {
   attr_.amount_ = (attr_.amount_ + add > 0.0f) ? (attr_.amount_ + add) : 0.0f;
 }
 
-void Product::InteractWithSpace() {
-  std::cout << "Hello from " + attr_.name_ << std::endl;
-}
-
-void Product::InteractWithInhabitant(Inhabitant *that) {
-  std::string message;
-  switch (that->GetType()) {
-    case PRODUCT:message = this->attr_.name_ + " meets " + dynamic_cast<Product *>(that)->attr_.name_;
-      std::cout << message << std::endl;
-      break;
-    case THIEF:dynamic_cast<Thief *>(that)->InteractWithInhabitant(this);
-      break;
-  }
-}
-
 void Product::Show() const {
   std::cout << "Product: " << attr_.name_ << std::endl
             << "Price: " << attr_.price_ << std::endl

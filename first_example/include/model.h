@@ -11,5 +11,4 @@ class Model : public Observable {
   virtual void Step() = 0;
  protected:
   Space space_;
-  std::vector<Inhabitant*> inhabitants_;
 };

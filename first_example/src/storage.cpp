@@ -9,12 +9,13 @@ Storage::Storage(const std::string &input_path) {
 
 void Storage::Step() {
   DeliverGoods();
-  Steal();
+  thief_.Steal(products_.at(0));
+  NotifyObservers(products_.at(0));
 }
 
 void Storage::Show() const {
   std::cout << "Storage::Show - This is what I have:" << std::endl;
-  for (auto item: inhabitants_) {
+  for (auto item: products_) {
     item->Show();
   }
 }
@@ -54,7 +55,7 @@ void Storage::DeliverGoods() {
         iss >> price;
         iss >> amount;
         //Product a(name, price, amount);
-        inhabitants_.push_back(new Product(name, price, amount));
+        products_.push_back(new Product(name, price, amount));
       }
     }
     NotifyObservers(inhabitants_);
@@ -62,8 +63,4 @@ void Storage::DeliverGoods() {
   } else {
     std::cout << "Can't open file " << deliveryFilepath_ << std::endl;
   }
-}
-
-void Storage::Steal() {
-  thief_.InteractWithInhabitant(inhabitants_.at(1));
 }

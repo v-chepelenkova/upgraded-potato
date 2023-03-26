@@ -11,9 +11,6 @@ class Inhabitant {
 
   // TODO: add getters and setters
   InhabitantType GetType() { return type_; }
-
-  virtual void InteractWithSpace() = 0;
-  virtual void InteractWithInhabitant(Inhabitant* that) = 0;
   virtual void Show() const = 0;
 
  protected:
