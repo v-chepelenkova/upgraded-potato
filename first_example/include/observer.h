@@ -2,10 +2,11 @@
 
 #include <vector>
 
+#include "storage_event.h"
 #include "inhabitant.h"
 #include "product.h"
 
 class Observer {
  public:
-  virtual void Update(Inhabitant *context) = 0;
+  virtual void Update(StorageEvent &context) = 0;
 };

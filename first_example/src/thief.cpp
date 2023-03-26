@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "storage_event.h"
 #include "product.h"
 
 Thief::Thief() {
@@ -9,13 +10,9 @@ Thief::Thief() {
   std::cout << "A thief is here" << std::endl;
 }
 
-void Thief::Steal(Product *that) {
-      std::cout << that->GetName()
-                << "'s been stolen. Out of "
-                << std::to_string(that->GetAmount())
-                << " items only "
-                << std::to_string((that->Add(-1), that->GetAmount()))
-                << " are left" << std::endl;
+StorageEvent Thief::Steal(Product *that) {
+  that->Add(-1);
+  return {TheftEvent(that)};
 }
 
 void Thief::Show() const {

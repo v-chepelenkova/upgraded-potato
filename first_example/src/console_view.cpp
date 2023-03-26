@@ -1,7 +1,9 @@
 #include "console_view.h"
 
-#include "inhabitant.h"
+#include "storage_event.h"
 
-void ConsoleView::Refresh(Inhabitant *context) {
-    context->Show();
+struct StorageEvent;
+
+void ConsoleView::Refresh(StorageEvent &context) {
+    context.Handle();
 }

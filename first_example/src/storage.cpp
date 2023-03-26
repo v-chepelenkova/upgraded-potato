@@ -1,5 +1,6 @@
 #pragma once
 
+#include "storage_event.h"
 #include "storage.h"
 
 Storage::Storage(const std::string &input_path) {
@@ -9,8 +10,7 @@ Storage::Storage(const std::string &input_path) {
 
 void Storage::Step() {
   DeliverGoods();
-  thief_.Steal(products_.at(0));
-  NotifyObservers(products_.at(0));
+  NotifyObservers(thief_.Steal(products_.at(1)));
 }
 
 void Storage::Show() const {
@@ -25,7 +25,7 @@ void Storage::AddObserver(Observer *observer) {
 }
 
 // TODO: add events instead of sharing private members directly
-void Storage::NotifyObservers(Inhabitant *context) {
+void Storage::NotifyObservers(StorageEvent context) {
   for (auto & observer : observers_) {
     observer->Update(context);
   }
@@ -54,9 +54,8 @@ void Storage::DeliverGoods() {
         iss >> name;
         iss >> price;
         iss >> amount;
-        //Product a(name, price, amount);
         products_.push_back(new Product(name, price, amount));
-        NotifyObservers(products_.back());
+        NotifyObservers({DeliveryEvent(products_.back())});
       }
     }
   } else {

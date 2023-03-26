@@ -3,11 +3,12 @@
 #include <vector>
 
 #include "product.h"
+#include "storage_event.h"
 #include "view.h"
 
 class View;
 
 class ConsoleView : public View {
  public:
-  void Refresh(Inhabitant *context);
+  void Refresh(StorageEvent &context);
 };

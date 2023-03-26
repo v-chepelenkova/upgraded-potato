@@ -3,6 +3,7 @@
 #include "inhabitant.h"
 #include "attributes.h"
 #include "product.h"
+#include "storage_event.h"
 
 template <>
 class Attributes<THIEF> {
@@ -10,11 +11,12 @@ class Attributes<THIEF> {
   float luck_;
 };
 
+struct StorageEvent;
 
 class Thief : public Inhabitant {
  public:
   Thief();
-  void Steal(Product* that);
+  StorageEvent Steal(Product* that);
   void Show() const;
  private:
   Attributes<THIEF> attr_;

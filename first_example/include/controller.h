@@ -1,9 +1,9 @@
 #pragma once
 
-#include "product.h"
-#include "storage.h"
 #include "console_view.h"
 #include "observer.h"
+#include "product.h"
+#include "storage.h"
 
 class Observer;
 class Storage;
@@ -14,7 +14,7 @@ class Controller : public Observer {
   Controller(const std::string &input_path);
   ~Controller();
   void Start();
-  void Update(Inhabitant *context);
+  void Update(StorageEvent &context);
  private:
   Storage* model_;
   ConsoleView* view_;

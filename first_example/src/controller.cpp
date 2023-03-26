@@ -21,6 +21,6 @@ void Controller::Start() {
   model_->Step();
 }
 
-void Controller::Update(Inhabitant *context) {
+void Controller::Update(StorageEvent &context) {
   view_->Refresh(context);
 }
