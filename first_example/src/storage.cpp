@@ -1,7 +1,8 @@
-#pragma once
+#include "storage.h"
+
+#include <algorithm>
 
 #include "storage_event.h"
-#include "storage.h"
 
 Storage::Storage(const std::string &input_path) {
   deliveryFilepath_ = input_path;
