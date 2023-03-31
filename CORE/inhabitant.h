@@ -1,9 +1,5 @@
 #pragma once
-
-enum InhabitantType {
-  PRODUCT,
-  THIEF
-};
+#include "inhabitant_types.h"
 
 class Inhabitant {
  public:

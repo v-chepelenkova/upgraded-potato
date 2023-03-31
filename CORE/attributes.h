@@ -1,6 +1,5 @@
 #pragma once
-
-#include "inhabitant.h"
+#include "inhabitant_types.h"
 
 template <InhabitantType inhab_type>
 class Attributes;
