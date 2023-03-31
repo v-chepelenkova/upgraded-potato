@@ -5,6 +5,7 @@
 #include "storage_event.h"
 #include "product.h"
 
+// Inhabitant_Step_4: Implement inhabitant's behavior
 Thief::Thief() {
   attr_.luck_ = 0.7f;
   std::cout << "A thief is here" << std::endl;

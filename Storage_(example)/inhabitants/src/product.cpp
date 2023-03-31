@@ -3,6 +3,7 @@
 #include "product.h"
 #include "thief.h"
 
+// Inhabitant_Step_4: Implement inhabitant's behavior
 Product::Product(const std::string &name, const float &price) {
   attr_.name_ = name;
   attr_.price_ = price;

@@ -6,6 +6,7 @@
 #include "inhabitant.h"
 #include "attributes.h"
 
+// Inhabitant_Step_3.1: Specialize your inhabitant's Attributes template
 template <>
 class Attributes<PRODUCT> {
  public:
@@ -14,6 +15,7 @@ class Attributes<PRODUCT> {
   float amount_;
 };
 
+// Inhabitant_Step_2: Create and inherit the class for your inhabitant
 class Product : public Inhabitant {
  public:
   Product(const std::string &name, const float &price);
@@ -28,6 +30,7 @@ class Product : public Inhabitant {
 
   void Show() const;
 
+ // Inhabitant_Step_3.2: Put your inhabitant's Attributes in private
  private:
   Attributes<PRODUCT> attr_;
   //std::string name_;
