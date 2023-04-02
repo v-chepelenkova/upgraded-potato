@@ -1,54 +1,86 @@
-****How to create your own inhabitant****
-[Next step takes place in inhabitants/src and inhabitants/include folders (for .cpp and .h files accordingly)]
-1. Your inhabitant will have some name. Add it into InhabitantType enum.
-[add inhabitant_types.h in inhabitants/include/; see inhabitant.h in the example] 
-[!!!IMPORTANT!!! Name the file as "inhabitant_types.h"]
+****How to create your own model****
+{Next step takes place in model/ folder}
+1. Create .h/.cpp files with a meaningful name (e. g. my_model.h/.cpp)
+2. Inherit your model from the abstract Model class
+3. Create your own Space class if you need it
+4. Your model is a child of Model and Observable classes meaning you must implement the following methods:
+    - void Step(); - evolve your system until it reaches the next time step
+    - void AddObserver(Observer *observer);
+    - void RemoveObserver(Observer *observer) = 0;
+    - void NotifyObservers(StorageEvent context) = 0;
+    Note that as a child of Observable you already have the field with std::vector<Observer*>, your task is just to add
+    and remove ones to/from this vector
 
-2. Create .h for your inhabitant class in include/ folder.
-inherit it from Inhabitant abstract class (which is located in CORE).
-When inheriting don't forget to implement all the virtual methods. //Should we name them one by one?//
-[see my_inhabitant.h; product.h and thief.h in the example]
-
-3. Your inhabitant's private fields are it's Attributes (they are in CORE).
-Specialize the Attributes template using inhabitant's name from enum (step 1)
-and declare them.
-[see my_inhabitant.h; product.h and thief.h in the example]
-
-4. Implement inhabitant's behavior in .cpp file and put it in src/ folder.
-[see my_inhabitant.h; product.h and thief.h in the example]
+[see storage_model.h/.cpp in the example]
 *******************************************************************************
 
 
+****How to create your own inhabitant****
+{Next step takes place in inhabitants/src and inhabitants/include folders (for .cpp and .h files accordingly)}
+
+1. Your inhabitant will have some name. Add it into InhabitantType enum. Name the file exactly inhabitant_types.h
+and place it in inhabitants/include/
+[see inhabitant_types.h in the example]
+
+2. Create .h file for your inhabitant class in include/ folder, e.g. my_inhabitant.h
+inherit it from Inhabitant abstract class (which is located in CORE).
+When inheriting don't forget to implement all the virtual methods.
+
+/* Veronica: nothing to implement here :( */
+
+[see product.h and thief.h in the example]
+
+3. Your inhabitant's private fields are its Attributes (the definition of this class is in CORE).
+Specialize the Attributes template using inhabitant's name from enum (step 1)
+and declare them in your 'my_inhabitant.h'.
+[see product.h and thief.h in the example]
+
+4. Implement inhabitant's behavior in a corresponding .cpp file and put it in src/ folder.
+[see product.cpp and thief.cpp in the example]
+*******************************************************************************
+
 
 ****How to create your own event****
-{Next steps take place in the events folder}
+{Next steps take place in the events/ folder}
+
 1. There is an abstract Event structure in CORE. First of all, inherit your own
-AnyEvent structure (StorageEvent in the example) from Event and implement all virtual methods of the ancestor.
-[see my_event.h file; storage_event.h in the example]
+AnyEvent structure (StorageEvent in the example) from Event in your own files, e.g. my_event.h/.cpp
+[see storage_event.h in the example]
 
-2. //What is AnyEvent?//
+2. In my_event.h you should also declare any possible event that can occur in your system as a distinct structure.
+You can set your event participants as its fields if you think it is needed.
 
-3. If you try to add new MyEvent structure, then add it in the std::variant
-in AnyEvent structure.
-[see my_event.h file; storage_event.h in the example]
+3. AnyEvent is a structure containing a field with std::variant<...>, where all your above events should be listed
+instead of '...'. You should also implement a constructor taking std::variant as an argument since it will be
+later allowed to call it as follows: auto anyEvent = AnyEvent(MyExactEvent(/*your arguments to create MyExactEvent*/));
+[see storage_event.h/.cpp in the example]
 
-4. Add your MyEvent structure declaration.
-[see my_event.h file; storage_event.h in the example]
-
-5. There is an std::visit in AnyEvent's Handle() function. Add your
-lambda function with your event there.
-[see my_event.cpp file; storage_event.cpp in the example]
-
-6. What should lambda functions do? Who do they call?
+4. AnyEvent as a child class of Event must provide an implementation of
+    - void Handle().
+The body of this function generally consists only of a single call of std::visit, where the first argument is
+overloaded {
+      [](MyExactEvent1 arg) {
+        // here you call any function you want to be executed by the time this event would be handled,
+        // you can also access fields of your MyExactEvent1, if any
+      },
+      [](MyExactEvent2 arg) {
+        // same stuff
+      }
+      }
+  }
+The second argument is always your std::variant field of AnyEvent class.
+This function chooses an appropriate lambda to execute depending on what event type is stored in std::variant
+of an object on which this method's been called.
+[see storage_event.cpp in the example]
 
 {Next step takes place in inhabitants/src and inhabitants/include folders}
-7. If MyEvent is generated by some Inhabitant, make sure that you're returning
-that event where needed.
-[see my_inhabitant.h/.cpp; thief.h/.cpp in the example]
+7. If MyEvent is generated by some Inhabitant, pass it to the model as a return value.
+[see thief.h/.cpp in the example]
 
-{Next step takes place in the model folder}
-8. Don't forget to notify observers when event is happening. Do it inside Model's
-member functions or do it manually, when event is generated by some inhabitant.
-[see my_model.cpp; storage_model.cpp in the example]
+{Next step takes place in my_model.cpp}
+8. If any type of event's been generated make sure you notify observers about it.
+Your events might be either returned from a call to inhabitant's method or created by the model itself
+after performing an action.
+[see storage_model.cpp in the example]
 *******************************************************************************
 
