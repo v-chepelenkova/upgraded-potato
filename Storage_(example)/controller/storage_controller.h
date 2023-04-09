@@ -1,5 +1,6 @@
 #pragma once
 
+#include "controller.h"
 #include "console_view.h"
 #include "observer.h"
 #include "product.h"
@@ -9,10 +10,10 @@ class Observer;
 class Storage;
 class ConsoleView;
 
-class Controller : public Observer {
+class StorageController : public Controller {
  public:
-  Controller(const std::string &input_path);
-  ~Controller();
+  StorageController(const std::string &input_path);
+  ~StorageController();
   void Start();
   void Update(StorageEvent &context);
  private:

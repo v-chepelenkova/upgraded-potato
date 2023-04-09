@@ -1,5 +1,3 @@
-#pragma once
-
 #include "product.h"
 #include "thief.h"
 

@@ -5,6 +5,8 @@
 #include "product.h"
 #include "storage_event.h"
 
+struct StorageEvent;
+
 // Inhabitant_Step_3.1: Specialize your inhabitant's Attributes template
 template <>
 class Attributes<THIEF> {

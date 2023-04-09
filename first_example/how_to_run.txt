@@ -1,7 +1,0 @@
-do the next commands from project root folder:
-
-mkdir .\first_example\build
-cd .\first_example\build
-cmake ..
-cmake --build .
-.\bin\Debug\Storage.exe

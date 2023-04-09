@@ -1,26 +1,26 @@
-#include "controller.h"
+#include "storage_controller.h"
 
 #include <iostream>
 #include <string>
 
-Controller::Controller(const std::string &input_path) {
+StorageController::StorageController(const std::string &input_path) {
   std::cout << "Hello from controller" << std::endl;
   model_ = new Storage(input_path);
   view_ = new ConsoleView();
 }
 
-Controller::~Controller() {
+StorageController::~StorageController() {
   model_->RemoveObserver(this);
   delete view_;
   delete model_;
 };
 
-void Controller::Start() {
+void StorageController::Start() {
   model_->AddObserver(this);
   // TODO: add a loop here for system to evolve
   model_->Step();
 }
 
-void Controller::Update(StorageEvent &context) {
+void StorageController::Update(StorageEvent &context) {
   view_->Refresh(context);
 }
