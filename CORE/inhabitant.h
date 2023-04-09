@@ -4,6 +4,7 @@
 class Inhabitant {
  public:
   Inhabitant() : x_(0), y_(0), width_(0), height_(0) {}
+  virtual ~Inhabitant() = default;
 
   // TODO: add getters and setters
   InhabitantType GetType() { return type_; }

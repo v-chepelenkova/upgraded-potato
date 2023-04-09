@@ -8,5 +8,6 @@
 
 class Observer {
  public:
+  virtual ~Observer() = default;
   virtual void Update(StorageEventHandler &context) = 0;
 };

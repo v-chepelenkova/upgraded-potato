@@ -2,5 +2,6 @@
 
 class View {
  public:
-  void Refresh();
+  virtual ~View() = default;
+  virtual void Refresh() = 0;
 };
