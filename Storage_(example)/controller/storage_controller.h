@@ -15,7 +15,7 @@ class StorageController : public Controller {
   StorageController(const std::string &input_path);
   ~StorageController();
   void Start();
-  void Update(StorageEvent &context);
+  void Update(StorageEventHandler &context);
  private:
   Storage* model_;
   ConsoleView* view_;

@@ -8,5 +8,5 @@
 
 class Observer {
  public:
-  virtual void Update(StorageEvent &context) = 0;
+  virtual void Update(StorageEventHandler &context) = 0;
 };

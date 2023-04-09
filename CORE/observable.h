@@ -11,5 +11,5 @@ class Observable {
   virtual void RemoveObserver(Observer *observer) = 0;
  protected:
   std::vector<Observer*> observers_;
-  virtual void NotifyObservers(StorageEvent context) = 0;
+  virtual void NotifyObservers(StorageEventHandler context) = 0;
 };

@@ -24,6 +24,7 @@ class Product : public Inhabitant {
 
   std::string GetName() const;
   float GetAmount() const;
+  void ChangeName(const std::string &new_name);
   void ChangePrice(const float &new_price);
   void ChangeAmount(const float &new_amount);
   void Add(const float &add);

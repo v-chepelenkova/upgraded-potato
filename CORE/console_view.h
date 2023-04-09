@@ -10,5 +10,5 @@ class View;
 
 class ConsoleView : public View {
  public:
-  void Refresh(StorageEvent &context);
+  void Refresh(StorageEventHandler &context);
 };

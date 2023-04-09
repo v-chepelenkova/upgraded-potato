@@ -23,6 +23,6 @@ class Storage : public Model {
   Thief thief_;
   std::vector<Product*> products_;
   std::string deliveryFilepath_;
-  void NotifyObservers(StorageEvent context);
+  void NotifyObservers(StorageEventHandler context);
   void DeliverGoods();
 };

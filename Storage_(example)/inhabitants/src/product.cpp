@@ -25,6 +25,10 @@ float Product::GetAmount() const {
   return attr_.amount_;
 }
 
+void Product::ChangeName(const std::string &new_name) {
+    attr_.name_ = new_name;
+}
+
 void Product::ChangePrice(const float &new_price) {
   if (new_price >= 0.0f)
     attr_.price_ = new_price;

@@ -31,7 +31,7 @@ void Storage::AddObserver(Observer *observer) {
 }
 
 // TODO: add events instead of sharing private members directly (DONE)
-void Storage::NotifyObservers(StorageEvent context) {
+void Storage::NotifyObservers(StorageEventHandler context) {
   for (auto & observer : observers_) {
     observer->Update(context);
   }
@@ -63,9 +63,9 @@ void Storage::DeliverGoods() {
         products_.push_back(new Product(name, price, amount));
         // Events_Step_6: Don't forget to notify observers
         // when event is happening
-        NotifyObservers({DeliveryEvent(products_.back())});
       }
     }
+      NotifyObservers({DeliveryEvent(products_)});
   } else {
     std::cout << "Can't open file " << deliveryFilepath_ << std::endl;
   }

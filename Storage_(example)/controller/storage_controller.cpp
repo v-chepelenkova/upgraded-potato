@@ -21,6 +21,6 @@ void StorageController::Start() {
   model_->Step();
 }
 
-void StorageController::Update(StorageEvent &context) {
+void StorageController::Update(StorageEventHandler &context) {
   view_->Refresh(context);
 }

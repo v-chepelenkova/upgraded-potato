@@ -2,8 +2,8 @@
 
 #include "storage_event.h"
 
-struct StorageEvent;
+struct StorageEventHandler;
 
-void ConsoleView::Refresh(StorageEvent &context) {
+void ConsoleView::Refresh(StorageEventHandler &context) {
     context.Handle();
 }
