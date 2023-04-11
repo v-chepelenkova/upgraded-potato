@@ -4,6 +4,6 @@
 
 struct StorageEventHandler;
 
-void ConsoleView::Refresh(StorageEventHandler &context) {
+void ConsoleView::Refresh(EventHandler &context) {
     context.Handle();
 }

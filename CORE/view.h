@@ -3,5 +3,5 @@
 class View {
  public:
   virtual ~View() = default;
-  virtual void Refresh() = 0;
+  virtual void Refresh(EventHandler &context) = 0;
 };
