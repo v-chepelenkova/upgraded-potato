@@ -22,7 +22,7 @@ void StorageController::Start() {
   std::string path = "../Storage_(example)/input";
   Object *o;
   for (const auto & entry : std::filesystem::directory_iterator(path)) {
-    o = CreateObject(entry.path());
+    o = CreateObject(entry.path().string());
     if (std::get<std::string>(o->GetAttribute("type")) == "Product") {
       model_->AddProduct(dynamic_cast<Product *>(o));
     }
