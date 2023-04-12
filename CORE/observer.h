@@ -3,11 +3,11 @@
 #include <vector>
 
 #include "storage_event.h"
-#include "inhabitant.h"
+#include "object.h"
 #include "product.h"
 
 class Observer {
  public:
   virtual ~Observer() = default;
-  virtual void Update(StorageEventHandler &context) = 0;
+  virtual void Update(const EventVariant &context) = 0;
 };

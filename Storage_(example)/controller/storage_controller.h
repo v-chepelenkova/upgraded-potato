@@ -12,11 +12,15 @@ class ConsoleView;
 
 class StorageController : public Controller {
  public:
-  StorageController(const std::string &input_path);
+  StorageController();
   ~StorageController();
   void Start();
-  void Update(StorageEventHandler &context);
+  void Update(const EventVariant &context);
  private:
   Storage* model_;
   ConsoleView* view_;
+
+  Object* CreateObject(const std::string &jsonName);
+  // TODO: RemoveObject(...) : call sth in model to remove it from there,
+  //        then destroy the object itself
 };

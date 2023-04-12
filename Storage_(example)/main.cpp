@@ -1,7 +1,7 @@
 #include "storage_controller.h"
 
 int main() {
-  StorageController controller("../Storage_(example)/input/products.txt");
+  StorageController controller;
   controller.Start();
   return 0;
 }

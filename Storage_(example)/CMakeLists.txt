@@ -12,10 +12,12 @@ file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 # Set variable that tells where to find headers
 set(CURRENT_INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES}
                                 ${PROJECT_SOURCE_DIR}/events
-                                ${PROJECT_SOURCE_DIR}/inhabitants/include
+                                ${PROJECT_SOURCE_DIR}/objects/include
                                 ${PROJECT_SOURCE_DIR}/model
                                 ${PROJECT_SOURCE_DIR}/view
-                                ${PROJECT_SOURCE_DIR}/controller)
+                                ${PROJECT_SOURCE_DIR}/controller
+                                ${PROJECT_SOURCE_DIR}/lib
+        )
 
 #message("\nShowing Cmake variables:")
 #message("CURRENT_INCLUDE_DIRECTORIES = " ${CURRENT_INCLUDE_DIRECTORIES})

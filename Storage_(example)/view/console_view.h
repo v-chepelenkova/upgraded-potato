@@ -10,5 +10,5 @@ class View;
 
 class ConsoleView : public View {
  public:
-  void Refresh(EventHandler &context);
+  void Refresh(const EventVariant &context);
 };

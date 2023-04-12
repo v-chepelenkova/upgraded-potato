@@ -1,5 +1,11 @@
 #pragma once
-#include "inhabitant_types.h"
 
-template <InhabitantType inhab_type>
-class Attributes;
+#include <string>
+#include <variant>
+#include <vector>
+
+using AttributeVariant = std::variant<int,
+                                      float,
+                                      bool,
+                                      std::string,
+                                      std::vector<float>>;

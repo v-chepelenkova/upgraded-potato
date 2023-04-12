@@ -1,0 +1,11 @@
+{
+  "type": "Product",
+  "id": "Cola",
+  "price": 115.0,
+  "amount": 4.5,
+  "coordinates": [
+    0,
+    0,
+    0
+  ]
+}

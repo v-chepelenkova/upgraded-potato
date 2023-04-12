@@ -7,12 +7,15 @@
 void StorageEventHandler::Handle() {
   std::visit(overloaded {
       [](DeliveryEvent& arg) {
-          for(auto p : arg.product) {
-              p->Show();
-          }
       },
-      [](TheftEvent arg) {
-        arg.thief->Show();
+      [](TheftEvent& arg) {
+        std::string productName = std::get<std::string>
+            (arg.product->GetAttribute("id"));
+        float productAmount = std::get<float>
+            (arg.product->GetAttribute("amount"));
+        std::cout << productAmount << " pcs of "
+                  << productName << " left"
+                  << std::endl;
       }
   }, params);
 }
