@@ -1,11 +1,10 @@
 {
-  "type": "Product",
   "id": "Bread",
   "price": 30.5,
   "amount": 100.0,
   "coordinates": [
-    0,
-    0,
-    0
+    0.0,
+    0.0,
+    3.0
   ]
 }

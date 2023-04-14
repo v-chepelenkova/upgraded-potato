@@ -1,34 +1,54 @@
 #include <algorithm>
-#include <variant>
+#include <fstream>
+#include <random>
 
 #include "storage_event.h"
 #include "storage_model.h"
 
 Storage::Storage() {}
 
-void Storage::AddProduct(Product *o) {
-  products_.push_back(o);
-}
+void Storage::Initialize() {
+  std::string inputFolder = "../Storage_(example)/input";
 
-void Storage::AddThief(Thief *thief) {
-  thief_ = thief;
+  nlohmann::json thief = {
+      {"luck", 0.5},
+      {"coords", {0.0, 0.0, 0.0}}
+  };
+  object_.emplace("thief0", thief);
+  std::ifstream fin;
+  for (const auto & entry : std::filesystem::directory_iterator(inputFolder)) {
+    fin.open(entry.path().string());
+    auto tmpJson = nlohmann::json::parse(fin);
+    auto id = tmpJson["id"].get<std::string>();
+    tmpJson.erase("id");
+    object_.emplace(id, tmpJson);
+    fin.close();
+  }
 }
 
 void Storage::Step() {
-  // Events_Step_6.1: Observers are notified inside this function,
-  // because it is Model's member
-//  DeliverGoods();
+  // Steal some bread
+  auto thief = object_.find("thief0");
+  std::random_device rd;
+  std::mt19937 rng(rd());
+  std::uniform_real_distribution<> theftRand (0, 1);
+  if (theftRand(rng) < thief->second["luck"].get<float>()) {
+    auto bread = object_.find("Bread");
+    auto oldAmount = bread->second["amount"].get<float>();
+    if(oldAmount > 1) {
+      bread->second["amount"] = (oldAmount - 1);
+      NotifyObservers(TheftEvent(*thief, *bread));
+    }
+  }
 
-  // Events_Step_6.2: Observers are notified manually,
-  // because Inhabitant generated the event
-  NotifyObservers(thief_->Steal(products_.at(1)));
+  // TODO: Deliver sth here
 }
 
 void Storage::AddObserver(Observer *observer) {
   observers_.push_back(observer);
 }
 
-void Storage::NotifyObservers(const EventVariant &context) {
+void Storage::NotifyObservers(EventVariant context) {
   for (auto & observer : observers_) {
     observer->Update(context);
   }
@@ -43,27 +63,3 @@ void Storage::RemoveObserver(Observer *observer) {
     observers_.erase(candidate);
   }
 }
-
-//void Storage::DeliverGoods() {
-//  std::ifstream input_file(deliveryFilepath_);
-//  std::string name;
-//  float price;
-//  float amount;
-//  std::string line;
-//  if (input_file.is_open()) {
-//    while (std::getline(input_file, line)) {
-//      if (line[0] != '#') {
-//        std::stringstream iss(line);
-//        iss >> name;
-//        iss >> price;
-//        iss >> amount;
-//        products_.push_back(new Product(name, price, amount));
-//        // Events_Step_6: Don't forget to notify observers
-//        // when event is happening
-//      }
-//    }
-//      NotifyObservers({DeliveryEvent(products_)});
-//  } else {
-//    std::cout << "Can't open file " << deliveryFilepath_ << std::endl;
-//  }
-//}

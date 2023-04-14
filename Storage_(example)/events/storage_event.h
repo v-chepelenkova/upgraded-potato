@@ -1,33 +1,35 @@
 #pragma once
 
 #include <utility>
+#include <map>
 #include <variant>
 #include <vector>
 
+#include "json.hpp"
+
 #include "event.h"
 #include "object.h"
-#include "thief.h"
+
 
 class Thief;
 
-// Events_Step_3: Add MyEvent structure like this
 struct DeliveryEvent {
-  DeliveryEvent() {}
+  std::pair<std::string, nlohmann::json> product;
+  DeliveryEvent(std::pair<std::string, nlohmann::json> product)
+  : product(std::move(product)) {}
 };
 
 struct TheftEvent {
-  Thief *thief;
-  Product *product;
+  std::pair<std::string, nlohmann::json> thief;
+  std::pair<std::string, nlohmann::json> product;
 
-  TheftEvent(Thief *thief, Product* product) : thief(thief), product(product) {}
+  TheftEvent(std::pair<std::string, nlohmann::json> thief,
+             std::pair<std::string, nlohmann::json> product)
+  : thief(std::move(thief)), product(std::move(product)) {}
 };
 
-// Events_Step_1: Inherit ours AnyEvent class from the abstract Event class
 struct StorageEventHandler : public EventHandler {
-  // Events_Step_2: Add a particular MyEvent
-  //to the std::variant in the AnyEvent structure
-  StorageEventHandler(const EventVariant &params) : params(std::move(params)) {}
-  std::variant<DeliveryEvent, TheftEvent> params;
+  StorageEventHandler(EventVariant event) : params(std::move(event)) {}
+  EventVariant params;
   void Handle();
 };
-
