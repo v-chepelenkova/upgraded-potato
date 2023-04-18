@@ -36,7 +36,7 @@ namespace Engine {
 
 	void Plane::configureObject() {
 		// array object initialization here
-		const float uv_scale = 8.f;
+		const float uv_scale = 1.f;
 		//		vertex positions						normals						UV								vertex
 		float plane_norm_uv[] = {
 		-m_lenght / 2.0f, -m_width / 2.0f, 0,		0,  0.f,  1.f,			0.f,		0.f,						// 0
