@@ -1,0 +1,39 @@
+#version 460
+in vec2 tex_coord_smile;
+in vec2 tex_coord_quads;
+in vec3 frag_position;
+in vec3 frag_normal;
+
+layout (binding = 0) uniform sampler2D InTexture_Quads;
+
+uniform vec3 camera_position;
+uniform vec3 light_position;
+uniform vec3 light_color;
+uniform float ambient_factor;
+uniform float diffuse_factor;
+uniform float specular_factor;
+uniform float shininess;
+
+out vec4 frag_color;
+
+void main() {
+	// ambient
+	vec3 ambient = ambient_factor * light_color;
+	
+	// diffuse
+	vec3 normal = normalize(frag_normal);
+	float light_magnitude = length(light_position - frag_position);
+	vec3 light_dir = normalize(light_position - frag_position);
+	float diffuse_value = max(dot(normal, light_dir), 0.0);			
+	vec3 diffuse = diffuse_factor * light_color * diffuse_value;
+	
+	vec3 specular = vec3(0.f, 0.f, 0.f);
+	if(diffuse_value != 0.0f) {
+		// specular
+		vec3 view_dir = normalize(camera_position - frag_position);
+		vec3 halfway_dir = normalize(light_dir + view_dir);
+		float specular_value = pow(max(dot(normal, halfway_dir), 0.0), shininess);
+		specular = specular_factor * specular_value * light_color;
+	}
+	frag_color = texture(InTexture_Quads, tex_coord_quads) * vec4((ambient + diffuse + specular) / light_magnitude, 1.f);
+}
