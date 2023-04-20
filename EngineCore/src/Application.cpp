@@ -171,10 +171,10 @@ namespace Engine {
 		
 		generate_quads_texture(data, width, height);
 		//p_texture_quads = std::make_shared<Texture2D>(data, width, height);
-		p_texture_quads = ResourceManager::loadTexture("Face", "res\\textures\\circle2.png"); //face1.png
+		p_texture_quads = ResourceManager::loadTexture("Face", "res\\textures\\obamna.png"); //face1.png
 		p_texture_quads->bind(0);
 
-		//p_texture_moon = ResourceManager::loadTexture("Moon", "res\\textures\\moon1024.bmp");
+		p_texture_moon = ResourceManager::loadTexture("Moon", "res\\textures\\obama_sphere.png");
 		//p_texture_moon->bind(1);
 
 		delete[] data; // cleaning up texture data
@@ -273,18 +273,20 @@ namespace Engine {
 		//example_cube->setModelMatrix(modelMatrix);
 		unsigned int scale = 1;
 		unsigned int n_cubes = 10;
+		float epsilon = 1e-2;
+		
 		for (int i = 0; i < n_cubes; i++)
 		{
 			glm::mat4 translate_matrix( scale, 0, 0, 0,
 										0, scale, 0, 0,
 										0, 0, scale, 0,
-										0, 0, 5 + 1.5*scale, 1);
+										0, 0, 5 + 1.5*scale + i*i*epsilon, 1);
 			
 			rotate_in_radians = glm::radians(currrent_time / (scale + 5));
 			rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
 									-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
-									 0, 0, 1, 0,
-									 0, 0, 0, 1);
+									0, 0, 1, 0,
+									0, 0, 0, 1);
 
 			// set new position for a cube
 			example_cube->setModelMatrix(translate_matrix * rotateMatrix);
@@ -297,13 +299,17 @@ namespace Engine {
 		
 		
 		// rendering spheres
-		
+		p_texture_moon->bind(0);
 		float R = 10.f;
 		float period = 5.f;
 		float vel = 2 * glm::radians(180.0) * R / period;
 		
 		float pulse = 1.01;// +glm::cos((2 * 3.14159265 * 1.f) * currrent_time * 1e-3);
-		
+		rotate_in_radians = glm::radians(currrent_time*3e-1);
+		rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
+			-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1);
 		for (size_t i = 1; i < 5; i++)
 		{
 			R = 5 + 2*i;
@@ -311,8 +317,8 @@ namespace Engine {
 										0, pulse, 0, 0,
 										0, 0, pulse, 0,
 										R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f*i), 0, 1);
-
-			example_sphere->setModelMatrix(translateMatrix);
+			
+			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 			example_sphere->draw();
 		}
 
@@ -325,7 +331,7 @@ namespace Engine {
 				0, 0, pulse, 0,
 				R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0, 1);
 
-			example_sphere->setModelMatrix(translateMatrix);
+			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 
 			example_sphere->draw();
 		}

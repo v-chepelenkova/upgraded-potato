@@ -103,7 +103,7 @@ namespace Engine {
 
         std::shared_ptr<Engine::Texture2D> newTexture = m_textures.emplace(textureName, std::make_shared<Engine::Texture2D>(pixels, 
             width,
-            height)).first->second;
+            height, channels)).first->second;
         stbi_image_free(pixels);
         return newTexture;
     }

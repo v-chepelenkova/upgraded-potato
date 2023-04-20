@@ -6,15 +6,22 @@
 
 namespace Engine
 {
-    Texture2D::Texture2D(const unsigned char* data, const unsigned int width, const unsigned int height)
+    Texture2D::Texture2D(const unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int channels)
         : m_width(width)
         , m_height(height)
     {
         glCreateTextures(GL_TEXTURE_2D, 1, &m_id);
         const GLsizei mip_levels = static_cast<GLsizei>(std::log2(std::max(m_width, m_height))) + 1;
-        glTextureStorage2D(m_id, mip_levels, GL_RGB8, m_width, m_height);
-        glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        //glTexImage2D(m_id, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        if (channels == 4) {
+            // RGBA mode
+            glTextureStorage2D(m_id, mip_levels, GL_RGBA8, m_width, m_height);
+            glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        }
+        else if (channels == 3) {
+            // RGB mode
+            glTextureStorage2D(m_id, mip_levels, GL_RGB8, m_width, m_height);
+            glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, data);
+        }
         // texture filling mode (S - x-asis, T - y-axis)
         glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, GL_REPEAT);

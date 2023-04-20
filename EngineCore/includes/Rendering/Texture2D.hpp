@@ -4,7 +4,7 @@ namespace Engine {
 
     class Texture2D {
     public:
-        Texture2D(const unsigned char* data, const unsigned int width, const unsigned int height);
+        Texture2D(const unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int channels);
         ~Texture2D();
 
         Texture2D(const Texture2D&) = delete;
