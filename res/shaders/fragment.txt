@@ -35,5 +35,10 @@ void main() {
 		float specular_value = pow(max(dot(normal, halfway_dir), 0.0), shininess);
 		specular = specular_factor * specular_value * light_color;
 	}
-	frag_color = texture(InTexture_Quads, tex_coord_quads) * vec4((ambient + diffuse + specular) / light_magnitude, 1.f);
+	vec4 tex_coord = texture(InTexture_Quads, tex_coord_quads);
+		if (tex_coord.a < 0.1){
+			discard;
+		}
+	frag_color = tex_coord * vec4((ambient + diffuse + specular) / light_magnitude, 1.f);
+		
 }

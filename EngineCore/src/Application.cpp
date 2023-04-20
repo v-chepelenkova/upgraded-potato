@@ -59,7 +59,7 @@ namespace Engine {
 	std::shared_ptr<Material> plane_material;
 	
 	// textures example
-	std::shared_ptr<Texture2D> p_texture_smile;
+	std::shared_ptr<Texture2D> p_texture_moon;
 	std::shared_ptr<Texture2D> p_texture_quads;
 
 	// cube example
@@ -171,8 +171,11 @@ namespace Engine {
 		
 		generate_quads_texture(data, width, height);
 		//p_texture_quads = std::make_shared<Texture2D>(data, width, height);
-		p_texture_quads = ResourceManager::loadTexture("Earth", "res\\textures\\earth2048.bmp");
+		p_texture_quads = ResourceManager::loadTexture("Face", "res\\textures\\circle2.png"); //face1.png
 		p_texture_quads->bind(0);
+
+		//p_texture_moon = ResourceManager::loadTexture("Moon", "res\\textures\\moon1024.bmp");
+		//p_texture_moon->bind(1);
 
 		delete[] data; // cleaning up texture data
 		
@@ -301,7 +304,7 @@ namespace Engine {
 		
 		float pulse = 1.01;// +glm::cos((2 * 3.14159265 * 1.f) * currrent_time * 1e-3);
 		
-		for (size_t i = 1; i < 20; i++)
+		for (size_t i = 1; i < 5; i++)
 		{
 			R = 5 + 2*i;
 			translateMatrix = glm::mat4(pulse, 0, 0, 0,
@@ -312,8 +315,22 @@ namespace Engine {
 			example_sphere->setModelMatrix(translateMatrix);
 			example_sphere->draw();
 		}
-		
 
+		//p_texture_moon->bind(0);
+		for (size_t i = 5; i < 10; i++)
+		{
+			R = 5 + 2 * i;
+			translateMatrix = glm::mat4(pulse, 0, 0, 0,
+				0, pulse, 0, 0,
+				0, 0, pulse, 0,
+				R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0, 1);
+
+			example_sphere->setModelMatrix(translateMatrix);
+
+			example_sphere->draw();
+		}
+		
+		p_texture_quads->bind(0);
 		// rendering light source
 		{
 			pSP_light_source->bind();

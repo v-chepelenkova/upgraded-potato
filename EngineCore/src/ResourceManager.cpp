@@ -88,6 +88,7 @@ namespace Engine {
 
     std::shared_ptr<Engine::Texture2D> ResourceManager::loadTexture(const std::string& textureName, const std::string& texturePath)
     {
+
         int channels = 0;
         int width = 0;
         int height = 0;
