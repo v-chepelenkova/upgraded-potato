@@ -8,32 +8,47 @@
 class App : public Engine::Application {
 	double mInitialMousePosX = 0;
 	double mInitialMousePosY = 0;
+	float camera_speed = 10.0 / FPS;
+	float rotation_speed = 90.0 / FPS;
 
+	float speed_multiplier = 1.0;
+	
 	virtual void onUpdate() override {
 		glm::vec3 movementDelta{ 0, 0, 0 };
 		glm::vec3 rotationDelta{ 0, 0, 0 };
 
-		float camera_speed = 10 / FPS;
-		float rotation_speed = 90 / FPS;
+		
 
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_W)) {
-			movementDelta.x += camera_speed;
+			movementDelta.x += camera_speed * speed_multiplier;
 		}
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_S)) {
-			movementDelta.x -= camera_speed;
+			movementDelta.x -= camera_speed * speed_multiplier;
 		}
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_A)) {
-			movementDelta.y -= camera_speed;
+			movementDelta.y -= camera_speed * speed_multiplier;
 		}
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_D)) {
-			movementDelta.y += camera_speed;
+			movementDelta.y += camera_speed * speed_multiplier;
 		}
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_R)) {
-			movementDelta.z += camera_speed;
+			movementDelta.z += camera_speed * speed_multiplier;
 		}
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_F)) {
-			movementDelta.z -= camera_speed;
+			movementDelta.z -= camera_speed * speed_multiplier;
 		}
+
+		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_COMMA)) {
+			if (speed_multiplier > 1e-3) {
+				speed_multiplier *= 0.95;
+			}
+		}
+		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_PERIOD)) {
+			if (speed_multiplier < 1e3) {
+				speed_multiplier *= 1.05;
+			}
+		}
+
 		// rotation
 		if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_UP)) {
 			rotationDelta.y -= rotation_speed;
