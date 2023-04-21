@@ -89,6 +89,9 @@ set(IMGUI_INCLUDES
 	../external/imgui/imgui.h
 	../external/imgui/backends/imgui_impl_glfw.h
 	../external/imgui/backends/imgui_impl_opengl3.h
+	
+	../external/implot/implot.h
+	../external/implot/implot_internal.h
 )
 
 set(IMGUI_SOURCES
@@ -99,6 +102,10 @@ set(IMGUI_SOURCES
 	../external/imgui/imgui_draw.cpp
 	../external/imgui/imgui_widgets.cpp
 	../external/imgui/imgui_tables.cpp
+	
+	../external/implot/implot.cpp
+	../external/implot/implot_demo.cpp
+	../external/implot/implot_items.cpp
 )
 
 add_library(ImGui STATIC
@@ -108,6 +115,7 @@ add_library(ImGui STATIC
 
 target_include_directories(ImGui PUBLIC ../external)
 target_include_directories(ImGui PUBLIC ../external/imgui)
+target_include_directories(ImGui PUBLIC ../external/implot)
 target_link_libraries(ImGui PRIVATE glad glfw)
 
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE ImGui)

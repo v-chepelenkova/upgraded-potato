@@ -5,6 +5,8 @@
 #include <imgui/imgui.h>
 #include <imgui_internal.h>
 
+#include <implot/implot_demo.cpp>
+
 class App : public Engine::Application {
 	double mInitialMousePosX = 0;
 	double mInitialMousePosY = 0;
@@ -201,6 +203,8 @@ class App : public Engine::Application {
 		if (ImGui::SliderFloat("shininess", &shininess, 0.8f, 10.f)) {
 		}
 		ImGui::End();
+		bool open = true;
+		ImPlot::ShowDemoWindow(&open);
 	}
 };
 

@@ -4,11 +4,13 @@
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <GLFW/glfw3.h>
+#include <implot/implot.h>
 
 namespace Engine {
     void UIModule::onWindowCreate(GLFWwindow* pWindow) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
+        ImPlot::CreateContext();
 
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_::ImGuiConfigFlags_DockingEnable;
@@ -21,6 +23,7 @@ namespace Engine {
     void UIModule::onWindowClose() {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+        ImPlot::DestroyContext();
         ImGui::DestroyContext();
     }
 
