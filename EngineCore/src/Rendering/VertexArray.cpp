@@ -43,7 +43,7 @@ namespace Engine {
     void VertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& p_vertex_buffer) {
         bind();
         p_vertex_buffer->bind();
-
+        mElementsCount = 0;
         for (const BufferElement& currElement : p_vertex_buffer->getLayout().getElemets()) {
 
             glEnableVertexAttribArray(mElementsCount);

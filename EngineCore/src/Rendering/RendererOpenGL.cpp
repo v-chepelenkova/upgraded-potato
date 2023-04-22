@@ -26,9 +26,22 @@ namespace Engine {
         return true;
     }
 
-    void RendererOpenGL::draw(const std::shared_ptr<VertexArray>& p_vertex_array) {
+    void RendererOpenGL::draw(const std::shared_ptr<VertexArray>& p_vertex_array, const RenderRegime& regime) {
         p_vertex_array->bind();
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(p_vertex_array->getIndicesCount()), GL_UNSIGNED_INT, nullptr);
+        int reg = GL_TRIANGLES;
+        switch (regime)
+        {
+        case RenderRegime::TRIANGLES:
+            reg = GL_TRIANGLES;
+            break;
+        case RenderRegime::LINE_STRIP:
+            reg = GL_LINE_STRIP;
+            break;
+        default:
+            reg = GL_TRIANGLES;
+            break;
+        }
+        glDrawElements(reg, static_cast<GLsizei>(p_vertex_array->getIndicesCount()), GL_UNSIGNED_INT, nullptr);
     }
 
     void RendererOpenGL::setClearColor(const float r, const float g, const float b, const float a) {

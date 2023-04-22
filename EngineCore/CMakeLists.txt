@@ -29,6 +29,7 @@ set(ENGINE_PRIVATE_INCLUDES
 	includes/Rendering/Primitives/Plane.hpp
 	includes/Rendering/Primitives/Sphere.hpp
 	includes/Rendering/Primitives/Cube.hpp
+	includes/Rendering/Primitives/Line.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES
@@ -51,6 +52,7 @@ set(ENGINE_PRIVATE_SOURCES
 	src/Rendering/Primitives/Plane.cpp
 	src/Rendering/Primitives/Sphere.cpp
 	src/Rendering/Primitives/Cube.cpp
+	src/Rendering/Primitives/Line.cpp
 )
 
 set(ENGINE_ALL_SOURCES
