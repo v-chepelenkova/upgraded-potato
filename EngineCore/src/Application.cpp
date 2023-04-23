@@ -24,6 +24,10 @@
 #include <GLFW/glfw3.h>
 
 namespace Engine {
+
+	const int N_spheres = 20;
+	const int N_earths = 5;
+
 	const float textScaleS = 10;
 	static double last_line_update_time = 0;
 	
@@ -76,7 +80,7 @@ namespace Engine {
 	std::shared_ptr<Texture2D> p_texture_quads;
 	
 	// tracking line
-	std::shared_ptr<Line> line;
+	std::vector<std::shared_ptr<Line>> lines(N_spheres);
 
 	// cube example
 	std::shared_ptr<Cube> example_cube;
@@ -222,8 +226,13 @@ namespace Engine {
 		plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess);
 		
 		// Initializing tracking line
-		line = std::make_shared<Line>(glm::vec3{ 7 * glm::cos(2.1415f), 7 * glm::sin(2.1415f), 0 }, 25);
-		line->setShaderProgram(pSP_line);
+		for (int i = 0; i < N_spheres; i++)
+		{
+			lines[i] = std::make_shared<Line>(glm::vec3{5 + 2 * i * glm::cos(2.1415f * i), 5 + 2 * i * glm::sin(2.1415f * i), 0}, 100);
+			lines[i]->setShaderProgram(pSP_line);
+		}
+		
+		
 
 		// Initializing cube
 		example_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
@@ -331,7 +340,7 @@ namespace Engine {
 			0, 0, 1, 0,
 			0, 0, 0, 1);
 		glm::vec3 sphere_position;
-		for (size_t i = 1; i < 2; i++)
+		for (size_t i = 0; i < N_earths; i++)
 		{
 			R = 5 + 2*i;
 			sphere_position = { R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0 };
@@ -342,21 +351,24 @@ namespace Engine {
 			
 			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 			example_sphere->draw();
+			lines[i]->addPointToLine(sphere_position);
 		}
 
-		////p_texture_moon->bind(0);
-		//for (size_t i = 5; i < 10; i++)
-		//{
-		//	R = 5 + 2 * i;
-		//	translateMatrix = glm::mat4(pulse, 0, 0, 0,
-		//		0, pulse, 0, 0,
-		//		0, 0, pulse, 0,
-		//		R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0, 1);
+		//p_texture_moon->bind(0);
+		for (size_t i = N_earths; i < N_spheres; i++)
+		{
+			R = 5 + 2 * i;
+			sphere_position = { R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0 };
+			translateMatrix = glm::mat4(pulse, 0, 0, 0,
+				0, pulse, 0, 0,
+				0, 0, pulse, 0,
+				sphere_position[0], sphere_position[1], sphere_position[2], 1);
 
-		//	example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
+			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 
-		//	example_sphere->draw();
-		//}
+			example_sphere->draw();
+			lines[i]->addPointToLine(sphere_position);
+		}
 		
 		p_texture_quads->bind(0);
 		// rendering light source
@@ -385,12 +397,16 @@ namespace Engine {
 		{
 			pSP_line->bind();
 			pSP_line->setMatrix4("view_projection_matrix", view_projection_matrix);
-			if ((currrent_time - last_line_update_time)*1e-3 > 0.5*T_sphere_movement) {
+			/*if ((currrent_time - last_line_update_time)*1e-3 > 0.5*T_sphere_movement) {
 				line->addPointToLine(sphere_position);
 				last_line_update_time = currrent_time;
+			}*/
+			for (int i = 0; i < N_spheres; i++)
+			{
+				lines[i]->draw();
 			}
 			
-			line->draw();
+			
 		}
 
 		UIModule::onUiDrawBegin();
