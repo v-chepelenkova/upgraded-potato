@@ -8,10 +8,15 @@
 #include "json.hpp"
 
 #include "event.h"
-#include "object.h"
 
 
 class Thief;
+
+struct DeliveryEvent;
+struct TheftEvent;
+
+using EventVariant = std::variant<DeliveryEvent,
+                                  TheftEvent>;
 
 struct DeliveryEvent {
   std::pair<std::string, nlohmann::json> product;
@@ -27,6 +32,7 @@ struct TheftEvent {
              std::pair<std::string, nlohmann::json> product)
   : thief(std::move(thief)), product(std::move(product)) {}
 };
+
 
 struct StorageEventHandler : public EventHandler {
   StorageEventHandler(EventVariant event) : params(std::move(event)) {}

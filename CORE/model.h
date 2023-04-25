@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "object.h"
 #include "observable.h"
 #include "space.h"
 

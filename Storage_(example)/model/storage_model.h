@@ -8,7 +8,6 @@
 #include "storage_controller.h"
 
 
-#include "object.h"
 #include "model.h"
 #include "observer.h"
 
