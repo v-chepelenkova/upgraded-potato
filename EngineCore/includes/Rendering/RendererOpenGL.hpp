@@ -9,9 +9,14 @@ namespace Engine {
 
     class RendererOpenGL {
     public:
+        enum class RenderRegime {
+            TRIANGLES,
+            LINE_STRIP
+        };
+
         static bool init(GLFWwindow* pWindow);
 
-        static void draw(const std::shared_ptr<VertexArray>& p_vertex_array);
+        static void draw(const std::shared_ptr<VertexArray>& p_vertex_array, const RenderRegime& regime = RenderRegime::TRIANGLES);
         static void setClearColor(const float r, const float g, const float b, const float a);
         static void clear();
         static void setViewport(const unsigned int width, const unsigned int height, const unsigned int leftOffset = 0, const unsigned int bottomOffset = 0);

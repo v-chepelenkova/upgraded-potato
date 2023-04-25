@@ -9,9 +9,11 @@
 #include "Log.hpp"
 #include "ResourceManager.hpp"
 
+#include "Rendering/RendererOpenGL.hpp"
 #include "Rendering/ShaderContainer.hpp"
 #include "Rendering/Primitives/Plane.hpp"
 #include "Rendering/Primitives/Sphere.hpp"
+#include "Rendering/Primitives/Line.hpp"
 #include "Rendering/Primitives/Cube.hpp"
 
 #include "Modules/UIModule.hpp"
@@ -22,7 +24,20 @@
 #include <GLFW/glfw3.h>
 
 namespace Engine {
+
+	const int N_spheres = 20;
+	const int N_earths = 5;
+
 	const float textScaleS = 10;
+	static double last_line_update_time = 0;
+	
+	float pulse = 1;// +glm::cos((2 * 3.14159265 * 1.f) * currrent_time * 1e-3); PLANET radius
+
+	float R = 10.f; // planet orbital radius
+	float period = 5.f; // planet period
+	float vel = 2 * glm::radians(180.0) * R / period; // planet velocity
+
+	double T_sphere_movement = static_cast<double>(pulse) / static_cast<double>(vel); // time of sphere traveling the distance equal its radius
 
 	//------------------------- TEST FUNCTIONS FOR SIMPLE TEXTURE GENERATION --------------//
 	void generate_quads_texture(unsigned char* data,
@@ -53,6 +68,8 @@ namespace Engine {
 	// shaders example
 	std::shared_ptr<ShaderProgram> pSP_light_source; // light source shader
 	std::shared_ptr<ShaderProgram> pSP_basic; // basic shader with simple lightning
+
+	std::shared_ptr<ShaderProgram> pSP_line;
 	
 	// materials example
 	std::shared_ptr<Material> basic_material;
@@ -61,6 +78,9 @@ namespace Engine {
 	// textures example
 	std::shared_ptr<Texture2D> p_texture_moon;
 	std::shared_ptr<Texture2D> p_texture_quads;
+	
+	// tracking line
+	std::vector<std::shared_ptr<Line>> lines(N_spheres);
 
 	// cube example
 	std::shared_ptr<Cube> example_cube;
@@ -169,6 +189,29 @@ namespace Engine {
 
       // textures generation
       auto* data = new unsigned char[width * height * channels];
+		pSP_line = std::make_shared<ShaderProgram>(Shaders::line_vertex, Shaders::line_fragment);
+		if (!pSP_line->isCompiled())
+		{
+			return false;
+		}
+
+		//material init
+		basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess);
+		plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess);
+		
+		// Initializing tracking line
+		for (int i = 0; i < N_spheres; i++)
+		{
+			lines[i] = std::make_shared<Line>(glm::vec3{5 + 2 * i * glm::cos(2.1415f * i), 5 + 2 * i * glm::sin(2.1415f * i), 0}, 100);
+			lines[i]->setShaderProgram(pSP_line);
+		}
+		
+		
+
+		// Initializing cube
+		example_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
+		example_cube->setMaterial(plane_material);
+		example_cube->setShaderProgram(pSP_basic);
 
       generate_quads_texture(data, width, height);
       //p_texture_quads = std::make_shared<Texture2D>(data, width, height);
@@ -256,8 +299,8 @@ namespace Engine {
 	void Application::draw(double currrent_time) {
 		RendererOpenGL::setClearColor(mBackgroundColor[0], mBackgroundColor[1], mBackgroundColor[2], mBackgroundColor[3]);
 		RendererOpenGL::clear();
-		
-		// view_projection matrix
+
+		//// view_projection matrix
 		glm::mat4 view_projection_matrix = camera.getProjectionMatrix() * camera.getViewMatrix();
 
 		// activating basic shader
@@ -276,7 +319,6 @@ namespace Engine {
 		
 		// rendering cubes
 
-		//example_cube->setModelMatrix(modelMatrix);
 		unsigned int scale = 1;
 		unsigned int n_cubes = 10;
 		float epsilon = 1e-2;
@@ -302,44 +344,44 @@ namespace Engine {
 
 		// rendering plane
 		example_plane->draw();
-		
-		
+
 		// rendering spheres
 		p_texture_moon->bind(0);
-		float R = 10.f;
-		float period = 5.f;
-		float vel = 2 * glm::radians(180.0) * R / period;
 		
-		float pulse = 1.01;// +glm::cos((2 * 3.14159265 * 1.f) * currrent_time * 1e-3);
 		rotate_in_radians = glm::radians(currrent_time*3e-1);
 		rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
 			-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1);
-		for (size_t i = 1; i < 5; i++)
+		glm::vec3 sphere_position;
+		for (size_t i = 0; i < N_earths; i++)
 		{
 			R = 5 + 2*i;
+			sphere_position = { R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0 };
 			translateMatrix = glm::mat4(pulse, 0, 0, 0,
 										0, pulse, 0, 0,
 										0, 0, pulse, 0,
-										R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f*i), 0, 1);
+										sphere_position[0], sphere_position[1], sphere_position[2], 1);
 			
 			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 			example_sphere->draw();
+			lines[i]->addPointToLine(sphere_position);
 		}
 
 		//p_texture_moon->bind(0);
-		for (size_t i = 5; i < 10; i++)
+		for (size_t i = N_earths; i < N_spheres; i++)
 		{
 			R = 5 + 2 * i;
+			sphere_position = { R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0 };
 			translateMatrix = glm::mat4(pulse, 0, 0, 0,
 				0, pulse, 0, 0,
 				0, 0, pulse, 0,
-				R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0, 1);
+				sphere_position[0], sphere_position[1], sphere_position[2], 1);
 
 			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 
 			example_sphere->draw();
+			lines[i]->addPointToLine(sphere_position);
 		}
 		
 		p_texture_quads->bind(0);
@@ -364,6 +406,21 @@ namespace Engine {
 										light_source_pos[0], light_source_pos[1], light_source_pos[2], 1);
 			ls_sphere->setModelMatrix(translate_matrix);
 			ls_sphere->draw();
+		}
+
+		{
+			pSP_line->bind();
+			pSP_line->setMatrix4("view_projection_matrix", view_projection_matrix);
+			/*if ((currrent_time - last_line_update_time)*1e-3 > 0.5*T_sphere_movement) {
+				line->addPointToLine(sphere_position);
+				last_line_update_time = currrent_time;
+			}*/
+			for (int i = 0; i < N_spheres; i++)
+			{
+				lines[i]->draw();
+			}
+			
+			
 		}
 
 		UIModule::onUiDrawBegin();
