@@ -17,8 +17,10 @@ namespace Engine {
 		Application& operator=(const Application&) = delete;
 		Application& operator=(Application&&) = delete;
 
+        virtual int initialize(unsigned int window_width, unsigned int
+        window_height, const char* title, const std::string& abs_path);
 
-		virtual int start(unsigned int window_width, unsigned int window_height, const char* title, const char* abs_path);
+		virtual int start();
 		
 		void close() { mbCloseWindow = true; };
 

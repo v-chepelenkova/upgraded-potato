@@ -82,145 +82,151 @@ namespace Engine {
 		LOG_INFO("Closing application");
 	}
 
-	int Application::start(unsigned int window_width, unsigned int window_height, const char* title, const char* abs_path)
-	{	
-		ResourceManager::setExecutablePath(abs_path);
-		const double updateTime = 1e6 / FPS;
-		// making a window
-		mpWindow = std::make_shared<Window>(title, window_width, window_height);
-		// setting up a camera viewport
-		camera.setViewportSize(static_cast<float>(window_width), static_cast<float>(window_height));
-		
-		// Events ( add new event callback here and event itself in Event class)
-		mEventDispatcher.addEventListener<EventMouseMoved>(
-			[](EventMouseMoved& event) {
-				//LOG_INFO("[MouseMoved] Mouse moved to {0} x {1}", event.x, event.y);
-			}
-		);
+    int Application::initialize(unsigned int window_width,
+                        unsigned int window_height,
+                        const char* title,
+                        const std::string& abs_path) {
+      ResourceManager::setExecutablePath(abs_path);
+      // making a window
+      mpWindow = std::make_shared<Window>(title, window_width, window_height);
+      // setting up a camera viewport
+      camera.setViewportSize(static_cast<float>(window_width), static_cast<float>(window_height));
 
-		mEventDispatcher.addEventListener<EventWindowResize>(
-			[&](EventWindowResize& event) {
-				LOG_INFO("[WindowResized] Changed size to {0} x {1}", event.width, event.height);
-				camera.setViewportSize(event.width, event.height);
-				//draw();
-			}
-		);
+      // Events ( add new event callback here and event itself in Event class)
+      mEventDispatcher.addEventListener<EventMouseMoved>(
+          [](EventMouseMoved& event) {
+            //LOG_INFO("[MouseMoved] Mouse moved to {0} x {1}", event.x, event.y);
+          }
+      );
 
-		mEventDispatcher.addEventListener<EventWindowClose>(
-			[&](EventWindowClose& event) {
-				LOG_INFO("[WindowClose]");
-				close();
-			}
-		);
+      mEventDispatcher.addEventListener<EventWindowResize>(
+          [&](EventWindowResize& event) {
+            LOG_INFO("[WindowResized] Changed size to {0} x {1}", event.width, event.height);
+            camera.setViewportSize(event.width, event.height);
+            //draw();
+          }
+      );
 
-		mEventDispatcher.addEventListener<EventKeyPressed>(
-			[&](EventKeyPressed& event) {
-				
-				if (event.keycode <= KeyCode::KEY_Z) {
-					if (event.repeated) {
-						LOG_INFO("[KEY PRESSED] {0}, repeated", (char)event.keycode);
-					}
-					else {
-						LOG_INFO("[KEY PRESSED] {0}", static_cast<char>(event.keycode));
-					}
-				}
-				Input::pressKey(event.keycode);
-			}
-		);
+      mEventDispatcher.addEventListener<EventWindowClose>(
+          [&](EventWindowClose& event) {
+            LOG_INFO("[WindowClose]");
+            close();
+          }
+      );
 
-		mEventDispatcher.addEventListener<EventKeyReleased>(
-			[&](EventKeyReleased& event) {
-				
-				if (event.keycode <= KeyCode::KEY_Z) {
-					LOG_INFO("[KEY RELEASED] {0}", static_cast<char>(event.keycode));
-				}
-				Input::releaseKey(event.keycode);
-			}
-		);
-		// Mouse event
-		mEventDispatcher.addEventListener<EventMouseButtonPressed>(
-			[&](EventMouseButtonPressed& event) {
-				LOG_INFO("[MOUSE BUTTON PRESSED: {0} AT {1}x{2}]", static_cast<int>(event.mouseButton), event.xPos, event.yPos);
-				Input::pressMouseButton(event.mouseButton);
-				onMouseButtonEvent(event.mouseButton, event.xPos, event.yPos, true);
-			}
-		);
+      mEventDispatcher.addEventListener<EventKeyPressed>(
+          [&](EventKeyPressed& event) {
 
-		mEventDispatcher.addEventListener<EventMouseButtonReleased>(
-			[&](EventMouseButtonReleased& event) {
-				LOG_INFO("[MOUSE BUTTON RELEASED: {0} AT {1}x{2}]", static_cast<int>(event.mouseButton), event.xPos, event.yPos);
-				Input::releaseMouseButton(event.mouseButton);
-				onMouseButtonEvent(event.mouseButton, event.xPos, event.yPos, false);
-			}
-		);
+            if (event.keycode <= KeyCode::KEY_Z) {
+              if (event.repeated) {
+                LOG_INFO("[KEY PRESSED] {0}, repeated", (char)event.keycode);
+              }
+              else {
+                LOG_INFO("[KEY PRESSED] {0}", static_cast<char>(event.keycode));
+              }
+            }
+            Input::pressKey(event.keycode);
+          }
+      );
 
-		mpWindow->set_event_callback(
-			[&](BaseEvent& event) {
-				mEventDispatcher.dispatch(event);
-			}
-		);
+      mEventDispatcher.addEventListener<EventKeyReleased>(
+          [&](EventKeyReleased& event) {
 
-		// various stuff initialization
+            if (event.keycode <= KeyCode::KEY_Z) {
+              LOG_INFO("[KEY RELEASED] {0}", static_cast<char>(event.keycode));
+            }
+            Input::releaseKey(event.keycode);
+          }
+      );
+      // Mouse event
+      mEventDispatcher.addEventListener<EventMouseButtonPressed>(
+          [&](EventMouseButtonPressed& event) {
+            LOG_INFO("[MOUSE BUTTON PRESSED: {0} AT {1}x{2}]", static_cast<int>(event.mouseButton), event.xPos, event.yPos);
+            Input::pressMouseButton(event.mouseButton);
+            onMouseButtonEvent(event.mouseButton, event.xPos, event.yPos, true);
+          }
+      );
 
-		const unsigned int width = 1000;
-		const unsigned int height = 1000;
-		const unsigned int channels = 3;
-		
-		// textures generation
-		auto* data = new unsigned char[width * height * channels];
-		
-		generate_quads_texture(data, width, height);
-		//p_texture_quads = std::make_shared<Texture2D>(data, width, height);
-		p_texture_quads = ResourceManager::loadTexture("Face", "res\\textures\\obamna.png"); //face1.png
-		p_texture_quads->bind(0);
+      mEventDispatcher.addEventListener<EventMouseButtonReleased>(
+          [&](EventMouseButtonReleased& event) {
+            LOG_INFO("[MOUSE BUTTON RELEASED: {0} AT {1}x{2}]", static_cast<int>(event.mouseButton), event.xPos, event.yPos);
+            Input::releaseMouseButton(event.mouseButton);
+            onMouseButtonEvent(event.mouseButton, event.xPos, event.yPos, false);
+          }
+      );
 
-		p_texture_moon = ResourceManager::loadTexture("Moon", "res\\textures\\obama_sphere.png");
-		//p_texture_moon->bind(1);
+      mpWindow->set_event_callback(
+          [&](BaseEvent& event) {
+            mEventDispatcher.dispatch(event);
+          }
+      );
 
-		delete[] data; // cleaning up texture data
-		
-		// Compiling shader programs
-		
-		// basic shader program with simple lighning
-		pSP_basic = ResourceManager::loadShaders("Default", "res\\shaders\\vertex.txt", "res\\shaders\\fragment.txt");
-		if (!pSP_basic->isCompiled())
-		{
-			return false;
-		}
+      // various stuff initialization
 
-		// Light source shader program
-		pSP_light_source = std::make_shared<ShaderProgram>(Shaders::vertex_shader_light_source, Shaders::fragment_shader_light_source);
-		if (!pSP_light_source->isCompiled())
-		{
-			return false;
-		}
+      const unsigned int width = 1000;
+      const unsigned int height = 1000;
+      const unsigned int channels = 3;
 
-		// material init
-		basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess);
-		plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess);
-		
-		// Initializing cube
-		example_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
-		example_cube->setMaterial(plane_material);
-		example_cube->setShaderProgram(pSP_basic);
+      // textures generation
+      auto* data = new unsigned char[width * height * channels];
 
-		ls_sphere = std::make_shared<Sphere>(glm::vec3(0, 0, 0), 1);
-		ls_sphere->setShaderProgram(pSP_light_source);
+      generate_quads_texture(data, width, height);
+      //p_texture_quads = std::make_shared<Texture2D>(data, width, height);
+      p_texture_quads = ResourceManager::loadTexture("Face", "res\\textures\\obamna.png"); //face1.png
+      p_texture_quads->bind(0);
 
-		// Initializing plane
-		example_plane = std::make_shared<Plane>(glm::vec3(0, 0, 0), 100.f, 100.f);
-		example_plane->setMaterial(plane_material);
-		example_plane->setShaderProgram(pSP_basic);
-		example_plane->setPosition(glm::vec3(0.f, 0.f, -5.f));
+      p_texture_moon = ResourceManager::loadTexture("Moon", "res\\textures\\obama_sphere.png");
+      //p_texture_moon->bind(1);
 
-		// Initializing sphere
-		example_sphere = std::make_shared<Sphere>(glm::vec3(10, 0, 2), 1.f);
-		example_sphere->setMaterial(plane_material);
-		example_sphere->setShaderProgram(pSP_basic);
+      delete[] data; // cleaning up texture data
 
-		RendererOpenGL::enableDepthBuffer();
-		
+      // Compiling shader programs
 
+      // basic shader program with simple lighning
+      pSP_basic = ResourceManager::loadShaders("Default", "res\\shaders\\vertex.txt", "res\\shaders\\fragment.txt");
+      if (!pSP_basic->isCompiled())
+      {
+        return false;
+      }
+
+      // Light source shader program
+      pSP_light_source = std::make_shared<ShaderProgram>(Shaders::vertex_shader_light_source, Shaders::fragment_shader_light_source);
+      if (!pSP_light_source->isCompiled())
+      {
+        return false;
+      }
+
+      // material init
+      basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess);
+      plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess);
+
+      // Initializing cube
+      example_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
+      example_cube->setMaterial(plane_material);
+      example_cube->setShaderProgram(pSP_basic);
+
+      ls_sphere = std::make_shared<Sphere>(glm::vec3(0, 0, 0), 1);
+      ls_sphere->setShaderProgram(pSP_light_source);
+
+      // Initializing plane
+      example_plane = std::make_shared<Plane>(glm::vec3(0, 0, 0), 100.f, 100.f);
+      example_plane->setMaterial(plane_material);
+      example_plane->setShaderProgram(pSP_basic);
+      example_plane->setPosition(glm::vec3(0.f, 0.f, -5.f));
+
+      // Initializing sphere
+      example_sphere = std::make_shared<Sphere>(glm::vec3(10, 0, 2), 1.f);
+      example_sphere->setMaterial(plane_material);
+      example_sphere->setShaderProgram(pSP_basic);
+
+      RendererOpenGL::enableDepthBuffer();
+
+
+    }
+
+	int Application::start()
+	{
+        const double updateTime = 1e6 / FPS;
 		auto begin = std::chrono::steady_clock::now();
 		auto program_start_time = begin;
 		auto end = std::chrono::steady_clock::now();

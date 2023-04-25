@@ -13,7 +13,7 @@ class ConsoleView;
 
 class StorageController : public Controller {
  public:
-  StorageController();
+  StorageController(const std::string &programAbsPath);
   ~StorageController();
   void Start();
   void Update(EventVariant &context);

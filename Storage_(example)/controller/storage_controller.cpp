@@ -3,9 +3,9 @@
 #include <iostream>
 #include <variant>
 
-StorageController::StorageController() {
+StorageController::StorageController(const std::string &programAbsPath) {
   model_ = new Storage;
-  view_ = new ConsoleView;
+  view_ = new ConsoleView(programAbsPath);
 }
 
 StorageController::~StorageController() {
@@ -16,6 +16,7 @@ StorageController::~StorageController() {
 
 void StorageController::Start() {
   model_->Initialize();
+  view_->Initialize();
   model_->AddObserver(this);
   // TODO: add a loop here for system to evolve
   for (int i = 0; i < 5; ++i) {

@@ -115,7 +115,7 @@ add_library(ImGui STATIC
 
 target_include_directories(ImGui PUBLIC ../external)
 target_include_directories(ImGui PUBLIC ../external/imgui)
-target_include_directories(ImGui PUBLIC ../external/implot)
+#target_include_directories(ImGui PUBLIC ../external/implot)
 target_link_libraries(ImGui PRIVATE glad glfw)
 
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE ImGui)
