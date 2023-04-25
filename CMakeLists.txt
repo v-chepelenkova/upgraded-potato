@@ -6,12 +6,13 @@ project(Metasimulator)
 #message("PROJECT_NAME = " ${PROJECT_NAME})
 
 # Tell where the CORE folder with abstract classes is
-set(INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/CORE)
+set(INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/CORE
+                        ${PROJECT_SOURCE_DIR}/external)
 
 #message("INCLUDE_DIRECTORIES = " ${INCLUDE_DIRECTORIES})
 
 # Subdirectory with some simulator
-add_subdirectory(EngineCore)
+add_subdirectory(CORE)
 add_subdirectory("Storage_(example)")
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Application)

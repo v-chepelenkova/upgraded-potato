@@ -12,3 +12,9 @@ class Model : public Observable {
   virtual void Initialize() = 0;
   virtual void Step() = 0;
 };
+
+class DefaultModel : public Model {
+ public:
+
+
+};
