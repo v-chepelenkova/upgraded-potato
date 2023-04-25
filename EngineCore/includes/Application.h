@@ -5,6 +5,8 @@
 #include "Camera.hpp"
 #include "Rendering/Material.hpp"
 
+#include <string>
+
 
 namespace Engine {
 	class Application {
