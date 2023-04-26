@@ -5,39 +5,41 @@
 #include "storage_event.h"
 #include "storage_model.h"
 
-Storage::Storage() {}
+Storage::Storage() {
+}
 
 void Storage::Initialize() {
   std::string inputFolder = "../Storage_(example)/input";
 
   nlohmann::json thief = {
-      {"luck", 0.5},
+      {"luck", 0.7},
       {"coords", {0.0, 0.0, 0.0}}
   };
-  object_.emplace("thief0", thief);
+  objects_.emplace("thief0", thief);
   std::ifstream fin;
   for (const auto & entry : std::filesystem::directory_iterator(inputFolder)) {
     fin.open(entry.path().string());
     auto tmpJson = nlohmann::json::parse(fin);
     auto id = tmpJson["id"].get<std::string>();
     tmpJson.erase("id");
-    object_.emplace(id, tmpJson);
+    objects_.emplace(id, tmpJson);
     fin.close();
   }
 }
 
 void Storage::Step() {
   // Steal some bread
-  auto thief = object_.find("thief0");
+  auto thief = objects_.find("thief0");
   std::random_device rd;
   std::mt19937 rng(rd());
   std::uniform_real_distribution<> theftRand (0, 1);
   if (theftRand(rng) < thief->second["luck"].get<float>()) {
-    auto bread = object_.find("Bread");
+    auto bread = objects_.find("Bread");
     auto oldAmount = bread->second["amount"].get<float>();
     if(oldAmount > 1) {
       bread->second["amount"] = (oldAmount - 1);
-      NotifyObservers(TheftEvent(*thief, *bread));
+      current_event = TheftEvent(*thief, *bread);
+      NotifyObservers();
     }
   }
 
@@ -48,12 +50,6 @@ void Storage::AddObserver(Observer *observer) {
   observers_.push_back(observer);
 }
 
-void Storage::NotifyObservers(EventVariant context) {
-  for (auto & observer : observers_) {
-    observer->Update(context);
-  }
-}
-
 void Storage::RemoveObserver(Observer *observer) {
   auto candidate = std::find(
       observers_.begin(),
@@ -61,5 +57,15 @@ void Storage::RemoveObserver(Observer *observer) {
       observer);
   if(candidate != observers_.end()) {
     observers_.erase(candidate);
+  }
+}
+
+EventVariant Storage::getEvent() {
+  return current_event;
+}
+
+void Storage::NotifyObservers() {
+  for (auto & observer : observers_) {
+    observer->Update();
   }
 }

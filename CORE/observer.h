@@ -8,5 +8,5 @@
 class Observer {
  public:
   virtual ~Observer() = default;
-  virtual void Update(EventVariant &context) = 0;
+  virtual void Update() = 0;
 };

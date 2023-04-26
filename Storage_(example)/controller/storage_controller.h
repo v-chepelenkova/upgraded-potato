@@ -13,10 +13,10 @@ class ConsoleView;
 
 class StorageController : public Controller {
  public:
-  StorageController(const std::string &programAbsPath);
-  ~StorageController();
-  void Start();
-  void Update(EventVariant &context);
+  explicit StorageController(const std::string &programAbsPath);
+  ~StorageController() override;
+  void Start() override;
+  void Update() override;
  private:
   Storage* model_;
   ConsoleView* view_;

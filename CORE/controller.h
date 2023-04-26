@@ -6,6 +6,6 @@ class Observer;
 
 class Controller : public Observer {
  public:
-  virtual ~Controller() = default;
+  ~Controller() override = default;
   virtual void Start() = 0;
 };

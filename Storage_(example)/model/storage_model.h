@@ -2,6 +2,7 @@
 
 #include <map>
 #include <vector>
+#include <deque>
 
 #include "json.hpp"
 
@@ -17,12 +18,15 @@ class Storage : public Model {
  public:
   Storage();
 
-  void Initialize();
-  void Step();
-  void AddObserver(Observer *observer);
-  void RemoveObserver(Observer *observer);
+  void Initialize() override;
+  void Step() override;
+  void AddObserver(Observer *observer) override;
+  void RemoveObserver(Observer *observer) override;
+  EventVariant getEvent();
  private:
   std::vector<Observer*> observers_;
-  std::map<std::string, nlohmann::json> object_;
-  void NotifyObservers(EventVariant context);
+  std::map<std::string, nlohmann::json> objects_;
+  EventVariant current_event;
+
+  void NotifyObservers() override;
 };

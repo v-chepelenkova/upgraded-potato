@@ -3,6 +3,12 @@
 #include <iostream>
 #include <variant>
 
+template<class... Ts> struct overloaded : Ts... {
+  using Ts::operator()...;
+};
+
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
 StorageController::StorageController(const std::string &programAbsPath) {
   model_ = new Storage;
   view_ = new ConsoleView(programAbsPath);
@@ -19,18 +25,19 @@ void StorageController::Start() {
   view_->Initialize();
   model_->AddObserver(this);
   // TODO: add a loop here for system to evolve
-  for (int i = 0; i < 5; ++i) {
+  for (int i = 0; i < 10; ++i) {
     objectToRefresh_.clear();
     model_->Step();
     view_->SetObjectsToRefresh(objectToRefresh_);
     std::cout << "step #" << i << std::endl;
-    timer_.add(std::chrono::milliseconds(1000),
+    timer_.add(std::chrono::milliseconds(100),
               [this]{view_->Refresh();},
               false);
   }
 }
 
-void StorageController::Update(EventVariant &context) {
+void StorageController::Update() {
+  auto context = model_->getEvent();
   std::visit(overloaded {
       [this](DeliveryEvent& arg) {
         objectToRefresh_.insert(arg.product);
