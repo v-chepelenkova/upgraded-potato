@@ -7,12 +7,12 @@
 
 struct StorageEventHandler;
 
-ConsoleView::ConsoleView(const std::string &programAbsPath) {
+StorageConsoleView::StorageConsoleView(const std::string &programAbsPath) {
   pEngineEditor_ = std::make_shared<App>();
   this->programAbsPath_ = programAbsPath;
 }
 
-void ConsoleView::Initialize() {
+void StorageConsoleView::Initialize() {
   pEngineEditor_->initialize(1600,
                              900,
                              "Engine Editor",
@@ -21,7 +21,7 @@ void ConsoleView::Initialize() {
   pEngineEditor_->start();
 }
 
-void ConsoleView::Refresh() {
+void StorageConsoleView::Refresh() {
   if (objectToRefresh_.empty()) {
     std::cout << "Nothing to refresh" << std::endl;
   }
@@ -30,7 +30,7 @@ void ConsoleView::Refresh() {
   }
 }
 
-void ConsoleView::SetObjectsToRefresh(std::map<std::string,
+void StorageConsoleView::SetObjectsToRefresh(std::map<std::string,
                                       nlohmann::json> object) {
   objectToRefresh_.clear();
   if(object.empty()) return;

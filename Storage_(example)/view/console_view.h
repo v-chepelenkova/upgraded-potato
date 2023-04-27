@@ -8,9 +8,9 @@
 
 class View;
 
-class ConsoleView : public View {
+class StorageConsoleView : public View {
  public:
-  ConsoleView(const std::string &programAbsPath);
+  StorageConsoleView(const std::string &programAbsPath);
   void Initialize();
   void Refresh();
   void SetObjectsToRefresh(std::map<std::string, nlohmann::json> object);

@@ -4,13 +4,13 @@
 #include <vector>
 #include <deque>
 
-#include "json.hpp"
+#include "../../CORE/utils/json/json.hpp"
 
 #include "storage_controller.h"
 
 
-#include "model.h"
-#include "observer.h"
+#include "../../CORE/mvc/model.h"
+#include "../../CORE/mvc/observer.h"
 
 class Observer;
 

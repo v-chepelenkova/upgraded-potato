@@ -1,10 +1,6 @@
 #include "timer.h"
-#include <thread>
 
-Timer::Timer() {
-}
-
-void Timer::add(std::chrono::milliseconds delay,
+void Timer::Add(std::chrono::milliseconds delay,
                 std::function<void()> callback,
                 bool asynchronous) {
   if (asynchronous) {

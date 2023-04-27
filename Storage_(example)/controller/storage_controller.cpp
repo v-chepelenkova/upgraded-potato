@@ -11,7 +11,7 @@ template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
 StorageController::StorageController(const std::string &programAbsPath) {
   model_ = new Storage;
-  view_ = new ConsoleView(programAbsPath);
+  view_ = new StorageConsoleView(programAbsPath);
 }
 
 StorageController::~StorageController() {
@@ -30,7 +30,7 @@ void StorageController::Start() {
     model_->Step();
     view_->SetObjectsToRefresh(objectToRefresh_);
     std::cout << "step #" << i << std::endl;
-    timer_.add(std::chrono::milliseconds(100),
+    timer_.Add(std::chrono::milliseconds(100),
               [this]{view_->Refresh();},
               false);
   }
