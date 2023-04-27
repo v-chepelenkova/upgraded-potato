@@ -18,10 +18,10 @@ namespace Engine {
 
 	private:
 		void reconfigureLine();
-		const unsigned int m_resolution;
-		unsigned int m_current_cell = 0;
-		float* m_line_points;
-		unsigned int* m_line_indices;
-		const unsigned int m_max_allowed_resolution = 1000;
+      const unsigned int m_max_allowed_resolution = 1000;
+      const unsigned int m_resolution;
+      unsigned int m_current_cell = 0;
+      float* m_line_points;
+      unsigned int* m_line_indices;
 	};
 }

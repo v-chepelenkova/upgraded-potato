@@ -10,7 +10,7 @@ namespace Engine {
 
     Line::Line(const glm::vec3& position, const unsigned int resolution) :
         PrimitiveObject(position),
-		m_resolution(resolution <= m_max_allowed_resolution ? resolution : m_max_allowed_resolution)
+		m_resolution((resolution <= m_max_allowed_resolution) ? resolution : m_max_allowed_resolution)
     {
 		configureObject();
     }
@@ -39,7 +39,7 @@ namespace Engine {
     }
 
 	void Line::addPointToLine(const glm::vec3& newPoint) {
-		for (unsigned int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			*(m_line_points + 6 * m_current_cell + i) = newPoint[i]; // updating only coordinates
 		}
 		m_current_cell++;
@@ -47,8 +47,8 @@ namespace Engine {
 			m_current_cell = 0; // if we reach the end of memory - rewrite data from the start
 		}
 		
-		unsigned int last_elem = *(m_line_indices + m_resolution - 1);
-		for (unsigned int i = m_resolution - 1; i > 0; i--) {
+		int last_elem = *(m_line_indices + m_resolution - 1);
+		for (int i = m_resolution - 1; i > 0; i--) {
 			
 			*(m_line_indices + i) = *(m_line_indices + i - 1); // shifting array to the right
 		}
@@ -96,8 +96,8 @@ namespace Engine {
 			ShaderDataType::Float3, // vertex pos
 			ShaderDataType::Float3, // colors
 		};
-		//m_vbo->unbind();
-		//m_ib->unbind();
+		m_vbo->unbind();
+		m_ib->unbind();
 		m_vbo = std::make_shared<VertexBuffer>(m_line_points, 4 * 6 * m_resolution, buffer_layout_vec3_vec3);
 		m_ib = std::make_shared<IndexBuffer>(m_line_indices, 4 * m_resolution / sizeof(unsigned int));
 

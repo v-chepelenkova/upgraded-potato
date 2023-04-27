@@ -215,10 +215,10 @@ namespace Engine {
 
       generate_quads_texture(data, width, height);
       //p_texture_quads = std::make_shared<Texture2D>(data, width, height);
-      p_texture_quads = ResourceManager::loadTexture("Face", "res\\textures\\obamna.png"); //face1.png
+      p_texture_quads = ResourceManager::loadTexture("Face", "res/textures/obamna.png"); //face1.png
       p_texture_quads->bind(0);
 
-      p_texture_moon = ResourceManager::loadTexture("Moon", "res\\textures\\obama_sphere.png");
+      p_texture_moon = ResourceManager::loadTexture("Moon", "res/textures/obama_sphere.png");
       //p_texture_moon->bind(1);
 
       delete[] data; // cleaning up texture data
@@ -226,7 +226,7 @@ namespace Engine {
       // Compiling shader programs
 
       // basic shader program with simple lighning
-      pSP_basic = ResourceManager::loadShaders("Default", "res\\shaders\\vertex.txt", "res\\shaders\\fragment.txt");
+      pSP_basic = ResourceManager::loadShaders("Default", "res/shaders/vertex.txt", "res/shaders/fragment.txt");
       if (!pSP_basic->isCompiled())
       {
         return false;
