@@ -9,7 +9,8 @@ namespace Engine {
 		Material(const float& ambient_factor,
 				 const float& diffuse_factor,
 				 const float& specular_factor,
-				 const float& shininess);
+				 const float& shininess,
+			const std::shared_ptr<Texture2D>& texture);
 
 		Material(const Material& other);
 

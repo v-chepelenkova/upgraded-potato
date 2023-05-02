@@ -195,9 +195,11 @@ namespace Engine {
 			return false;
 		}
 
+		p_texture_quads = ResourceManager::loadTexture("Face", "res/textures/obamna.png"); //face1.png
+		p_texture_moon = ResourceManager::loadTexture("Moon", "res/textures/obama_sphere.png");
 		//material init
-		basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess);
-		plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess);
+		basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess, p_texture_quads);
+		plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess, p_texture_moon);
 		
 		// Initializing tracking line
 		for (int i = 0; i < N_spheres; i++)
@@ -215,11 +217,9 @@ namespace Engine {
 
       generate_quads_texture(data, width, height);
       //p_texture_quads = std::make_shared<Texture2D>(data, width, height);
-      p_texture_quads = ResourceManager::loadTexture("Face", "res/textures/obamna.png"); //face1.png
-      p_texture_quads->bind(0);
+      
+      basic_material->m_texture->bind(0);
 
-      p_texture_moon = ResourceManager::loadTexture("Moon", "res/textures/obama_sphere.png");
-      //p_texture_moon->bind(1);
 
       delete[] data; // cleaning up texture data
 
@@ -239,9 +239,6 @@ namespace Engine {
         return false;
       }
 
-      // material init
-      basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess);
-      plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess);
 
       // Initializing cube
       example_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
@@ -346,7 +343,8 @@ namespace Engine {
 		example_plane->draw();
 
 		// rendering spheres
-		p_texture_moon->bind(0);
+		plane_material->m_texture->bind(0);
+
 		
 		rotate_in_radians = glm::radians(currrent_time*3e-1);
 		rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
@@ -384,7 +382,7 @@ namespace Engine {
 			lines[i]->addPointToLine(sphere_position);
 		}
 		
-		p_texture_quads->bind(0);
+		basic_material->m_texture->bind(0);
 		// rendering light source
 		{
 			pSP_light_source->bind();
