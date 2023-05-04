@@ -266,7 +266,7 @@ namespace Engine {
 
 	int Application::start()
 	{
-        const double updateTime = 1e6 / FPS;
+		const double updateTime = 1e6 / FPS;
 		auto begin = std::chrono::steady_clock::now();
 		auto program_start_time = begin;
 		auto end = std::chrono::steady_clock::now();

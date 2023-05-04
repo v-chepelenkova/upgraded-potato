@@ -48,8 +48,13 @@ void CreateScene() {
         }}
       }
   };
-  std::ofstream file("scene.json");
+
+  json camera_config = all["SCENE"]["CAMERA"].get<json>();
+  std::ofstream file("test.json");
+  if (file.is_open()) {
     file << all.dump(4);
+  }
+  file.close();
 }
 
 int main(int argc, char** argv) {

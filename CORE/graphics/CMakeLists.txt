@@ -4,6 +4,7 @@ set(ENGINE_PROJECT_NAME EngineCore)
 
 set(ENGINE_PUBLIC_INCLUDES
 	includes/Application.h
+	includes/RendererInterface.hpp
 	includes/Event.hpp
 	includes/Camera.hpp
 	includes/Keys.hpp
@@ -35,6 +36,7 @@ set(ENGINE_PRIVATE_INCLUDES
 set(ENGINE_PRIVATE_SOURCES
 	src/ResourceManager.cpp
 	src/Application.cpp
+	src/RendererInterface.cpp
 	src/Window.cpp
 	src/Input.cpp
 	src/Modules/UIModule.cpp
@@ -85,7 +87,6 @@ target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE glm)
 
 add_subdirectory(../../external/spdlog ${CMAKE_CURRENT_BINARY_DIR}/spdlog)
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE spdlog)
-
 
 set(IMGUI_INCLUDES
 	../../external/imgui/imgui.h
