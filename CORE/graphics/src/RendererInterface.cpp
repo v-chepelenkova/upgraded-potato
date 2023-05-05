@@ -262,7 +262,12 @@ namespace Engine {
         std::shared_ptr<PrimitiveObject> primitive;
 
         if (model == "sphere") {
-            primitive = p_basic_sphere;
+            if (material == "light_source") {
+                primitive = p_ls_sphere;
+            }
+            else{
+                primitive = p_basic_sphere;
+            }
         }
         else if (model == "cube") {
             primitive = p_cube;

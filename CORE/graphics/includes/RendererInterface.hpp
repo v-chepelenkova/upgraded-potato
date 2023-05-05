@@ -85,20 +85,12 @@ namespace Engine {
 		int m_window_width;
 		int m_window_height;
 		const std::string m_absolute_path;
-		//virtual int start();
 		
 		void close() { mbCloseWindow = true; };
-
-		//virtual void onUpdate() {};
-
-		//virtual void onUiDraw() {};
 
 		virtual void onMouseButtonEvent(const MouseButton button, const double xPos, const double yPos, const bool pressed) {};
 
 		glm::vec2 getCurrentCursorPosition() const;
-
-		float cameraPosition[3] = { 0.f, 0.f, 0.f };
-		float cameraRotation[3] = { 0.f, 0.f, 0.f };
 
 		// lightning parameters
 		float light_source_pos[3] = { 0.f, 0.f, 0.f };
@@ -110,18 +102,9 @@ namespace Engine {
 		float specular_factor = 1.f;
 		float shininess = 5.f;
 
-		bool is_disco = false;
-
-		float camera_fov = 60.f;
-		float camera_near_plane = 0.1f;
-		float camera_far_plane = 100.f;
-
 		bool perspectiveCamera = true;
 		Camera m_camera;// { glm::vec3(-20.f, 0.f, 10.f) }; // starting position of camera
 
-		//const double FPS = 90;
-
-		////void draw(double currrent_time);
 		std::shared_ptr<class Window> mpWindow;
 		EventDispatcher mEventDispatcher;
 		bool mbCloseWindow = false;
