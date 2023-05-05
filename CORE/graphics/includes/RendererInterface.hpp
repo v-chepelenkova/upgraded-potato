@@ -50,6 +50,8 @@ namespace Engine {
 		bool drawTrackingLine = false;
 	};
 
+	static glm::vec3 STDVecToGLMVec(const std::vector<float> vec);
+
 	class RenderingInterface {
 	public:
 		RenderingInterface( unsigned int window_width,
@@ -72,6 +74,8 @@ namespace Engine {
 	private:
 		void InitializePrimitives();
 		
+		void InitializeCamera(const json& camera_config);
+
 		void GenerateQuadsTexture(	unsigned char* data,
 									const unsigned int width,
 									const unsigned int height);
@@ -113,7 +117,7 @@ namespace Engine {
 		float camera_far_plane = 100.f;
 
 		bool perspectiveCamera = true;
-		Camera camera;// { glm::vec3(-20.f, 0.f, 10.f) }; // starting position of camera
+		Camera m_camera;// { glm::vec3(-20.f, 0.f, 10.f) }; // starting position of camera
 
 		//const double FPS = 90;
 
