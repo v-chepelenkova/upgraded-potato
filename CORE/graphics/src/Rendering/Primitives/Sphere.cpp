@@ -27,21 +27,21 @@ namespace Engine {
         std::vector<uint32_t> m_indicies;
         std::vector<float> interleavedVertices;
 
-        float sectorStep = 2 * M_PI / m_sectorCount;
-        float stackStep = M_PI / m_stackCount;
+        float sectorStep = (float)(2 * M_PI / m_sectorCount);
+        float stackStep = (float)(M_PI / m_stackCount);
         float sectorAngle, stackAngle;
 
-        for (int i = 0; i <= m_stackCount; ++i)
+        for (int i = 0; i <= (int)m_stackCount; ++i)
         {
-            stackAngle = M_PI / 2. - static_cast<float>(i) * stackStep;        // starting from pi/2 to -pi/2
+            stackAngle = (float)(M_PI / 2. - static_cast<float>(i) * stackStep);        // starting from pi/2 to -pi/2
             xy = m_radius * cosf(stackAngle);             // r * cos(u)
             z = m_radius * sinf(stackAngle);              // r * sin(u)
 
             // add (sectorCount+1) vertices per stack
             // the first and last vertices have same position and normal, but different tex coords
-            for (int j = 0; j <= m_sectorCount; ++j)
+            for (int j = 0; j <= (int)m_sectorCount; ++j)
             {
-                sectorAngle = j * sectorStep;           // starting from 0 to 2pi
+                sectorAngle = (float)j * sectorStep;           // starting from 0 to 2pi
 
                 // vertex position (x, y, z)
                 x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
@@ -67,12 +67,12 @@ namespace Engine {
         }
 
         int k1, k2;
-        for (int i = 0; i < m_stackCount; ++i)
+        for (int i = 0; i < (int)m_stackCount; ++i)
         {
-            k1 = i * (m_sectorCount + 1);     // beginning of current stack
-            k2 = k1 + m_sectorCount + 1;      // beginning of next stack
+            k1 = i * ((int)m_sectorCount + 1);     // beginning of current stack
+            k2 = k1 + (int)m_sectorCount + 1;      // beginning of next stack
 
-            for (int j = 0; j < m_sectorCount; ++j, ++k1, ++k2)
+            for (int j = 0; j < (int)m_sectorCount; ++j, ++k1, ++k2)
             {
                 // 2 triangles per sector excluding first and last stacks
                 // k1 => k2 => k1+1
@@ -84,7 +84,7 @@ namespace Engine {
                 }
 
                 // k1+1 => k2 => k2+1
-                if (i != (m_stackCount - 1))
+                if (i != ((int)m_stackCount - 1))
                 {
                     m_indicies.push_back(k1 + 1);
                     m_indicies.push_back(k2);

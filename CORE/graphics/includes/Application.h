@@ -56,7 +56,7 @@ namespace Engine {
 		bool perspectiveCamera = true;
 		Camera camera{ glm::vec3(-20.f, 0.f, 10.f) }; // starting position of camera
 
-		const double FPS = 90;
+		const float FPS = 90;
 
 	private:
 		void draw(double currrent_time);

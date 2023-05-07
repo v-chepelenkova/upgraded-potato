@@ -35,7 +35,7 @@ namespace Engine {
 
 	float R = 10.f; // planet orbital radius
 	float period = 5.f; // planet period
-	float vel = 2 * glm::radians(180.0) * R / period; // planet velocity
+	float vel = 2 * (float)glm::radians(180.0) * R / period; // planet velocity
 
 	double T_sphere_movement = static_cast<double>(pulse) / static_cast<double>(vel); // time of sphere traveling the distance equal its radius
 
@@ -122,7 +122,7 @@ namespace Engine {
       mEventDispatcher.addEventListener<EventWindowResize>(
           [&](EventWindowResize& event) {
             LOG_INFO("[WindowResized] Changed size to {0} x {1}", event.width, event.height);
-            camera.setViewportSize(event.width, event.height);
+            camera.setViewportSize((float)event.width, (float)event.height);
             //draw();
           }
       );
@@ -204,7 +204,9 @@ namespace Engine {
 		// Initializing tracking line
 		for (int i = 0; i < N_spheres; i++)
 		{
-			lines[i] = std::make_shared<Line>(glm::vec3{5 + 2 * i * glm::cos(2.1415f * i), 5 + 2 * i * glm::sin(2.1415f * i), 0}, 100);
+			lines[i] = std::make_shared<Line>(glm::vec3{5 + 2 * (float)i * glm::cos(2.1415f * (float)i), 
+														5 + 2 * (float)i * glm::sin(2.1415f * (float)i), 
+														0}, 100);
 			lines[i]->setShaderProgram(pSP_line);
 		}
 		
@@ -277,9 +279,9 @@ namespace Engine {
 		while (!mbCloseWindow) {
 			elapsed_ms = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
 			auto program_uptime = std::chrono::duration_cast<std::chrono::milliseconds>(end - program_start_time).count();
-			if (elapsed_ms > updateTime) {
+			if ((double)elapsed_ms > updateTime) {
 				begin = end;
-				draw(program_uptime);
+				draw((double)program_uptime);
 			}
 			end = std::chrono::steady_clock::now();
 		}
@@ -318,16 +320,16 @@ namespace Engine {
 
 		unsigned int scale = 1;
 		unsigned int n_cubes = 10;
-		float epsilon = 1e-2;
+		float epsilon = 1e-2f;
 		
 		for (int i = 0; i < n_cubes; i++)
 		{
 			glm::mat4 translate_matrix( scale, 0, 0, 0,
 										0, scale, 0, 0,
 										0, 0, scale, 0,
-										0, 0, 5 + 1.5*scale + i*i*epsilon, 1);
+										0, 0, 5 + 1.5*scale + (float)(i*i)*epsilon, 1);
 			
-			rotate_in_radians = glm::radians(currrent_time / (scale + 5));
+			rotate_in_radians = (float)glm::radians(currrent_time / (double)(scale + 5));
 			rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
 									-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
 									0, 0, 1, 0,
@@ -346,7 +348,7 @@ namespace Engine {
 		plane_material->m_texture->bind(0);
 
 		
-		rotate_in_radians = glm::radians(currrent_time*3e-1);
+		rotate_in_radians = (float)glm::radians(currrent_time*3e-1);
 		rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
 			-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
 			0, 0, 1, 0,
@@ -354,8 +356,8 @@ namespace Engine {
 		glm::vec3 sphere_position;
 		for (size_t i = 0; i < N_earths; i++)
 		{
-			R = 5 + 2*i;
-			sphere_position = { R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0 };
+			R = 5 + 2*(float)i;
+			sphere_position = { R * glm::cos(vel / R * (float)currrent_time * 1e-3f + 2.1415f * (float)i), R * glm::sin(vel / R * (float)currrent_time * 1e-3f + 2.1415f * (float)i), 0 };
 			translateMatrix = glm::mat4(pulse, 0, 0, 0,
 										0, pulse, 0, 0,
 										0, 0, pulse, 0,
@@ -369,8 +371,8 @@ namespace Engine {
 		//p_texture_moon->bind(0);
 		for (size_t i = N_earths; i < N_spheres; i++)
 		{
-			R = 5 + 2 * i;
-			sphere_position = { R * glm::cos(vel / R * currrent_time * 1e-3 + 2.1415f * i), R * glm::sin(vel / R * currrent_time * 1e-3 + 2.1415f * i), 0 };
+			R = 5 + 2 * (float)i;
+			sphere_position = { R * glm::cos(vel / R * (float)currrent_time * 1e-3f + 2.1415f * (float)i), R * glm::sin(vel / R * (float)currrent_time * 1e-3f + 2.1415f * (float)i), 0 };
 			translateMatrix = glm::mat4(pulse, 0, 0, 0,
 				0, pulse, 0, 0,
 				0, 0, pulse, 0,
@@ -388,7 +390,7 @@ namespace Engine {
 			pSP_light_source->bind();
 			pSP_light_source->setMatrix4("view_projection_matrix", camera.getProjectionMatrix() * camera.getViewMatrix());
 			if (is_disco) {
-				float T = currrent_time * 1e-3;
+				float T = (float)currrent_time * 1e-3f;
 				float caramel_dancen[3] = {1.f / 2.f * (1 + glm::cos(T / 0.1f)), 1.f / 2.f * (1 - glm::cos(T / 0.1f)), 1.f / 2.f * (1 + glm::sin(T / 0.1f))};
 			
 				light_source_color[0] = caramel_dancen[0];

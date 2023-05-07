@@ -11,8 +11,8 @@
 class App : public Engine::Application {
   double mInitialMousePosX = 0;
   double mInitialMousePosY = 0;
-  float camera_speed = 10.0 / FPS;
-  float rotation_speed = 90.0 / FPS;
+  float camera_speed = 10.0f / FPS;
+  float rotation_speed = 90.0f / FPS;
 
   float speed_multiplier = 1.0;
 
@@ -43,12 +43,12 @@ class App : public Engine::Application {
 
     if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_COMMA)) {
       if (speed_multiplier > 1e-3) {
-        speed_multiplier *= 0.95;
+        speed_multiplier *= 0.95f;
       }
     }
     if (Engine::Input::isKeyPressed(Engine::KeyCode::KEY_PERIOD)) {
       if (speed_multiplier < 1e3) {
-        speed_multiplier *= 1.05;
+        speed_multiplier *= 1.05f;
       }
     }
 
@@ -80,12 +80,12 @@ class App : public Engine::Application {
       glm::vec2 currentCursorPosition = getCurrentCursorPosition();
 
       if (Engine::Input::isMouseButtonPressed(Engine::MouseButton::MOUSE_BUTTON_LEFT)) {
-        camera.moveRight(static_cast<float>(-mInitialMousePosX + currentCursorPosition.x) / 100.0);
-        camera.moveUp(static_cast<float>(mInitialMousePosY - currentCursorPosition.y) / 100.0);
+        camera.moveRight(static_cast<float>(-mInitialMousePosX + currentCursorPosition.x) / 100.0f);
+        camera.moveUp(static_cast<float>(mInitialMousePosY - currentCursorPosition.y) / 100.0f);
       }
       else {
-        rotationDelta.z += static_cast<float>(mInitialMousePosX - currentCursorPosition.x) / 5.0; // yaw
-        rotationDelta.y -= static_cast<float>(mInitialMousePosY - currentCursorPosition.y) / 5.0; // pitch
+        rotationDelta.z += static_cast<float>(mInitialMousePosX - currentCursorPosition.x) / 5.0f; // yaw
+        rotationDelta.y -= static_cast<float>(mInitialMousePosY - currentCursorPosition.y) / 5.0f; // pitch
       }
 
       mInitialMousePosX = currentCursorPosition.x;

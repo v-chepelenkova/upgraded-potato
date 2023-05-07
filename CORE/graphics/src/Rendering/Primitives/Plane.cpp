@@ -1,4 +1,3 @@
-#pragma once
 #include "Rendering/Primitives/Plane.hpp"
 #include "Log.hpp"
 
