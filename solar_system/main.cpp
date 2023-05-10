@@ -22,7 +22,8 @@ void CreateScene() {
             {"type", "planet"},
             {"mass", 1.0},
             {"radius", 1.0},
-            {"coordinates", {5.0, 5.0, 0.0}},
+            {"orbit", 5.0},
+            {"coordinates", {5.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},
               {"texture", "earth.png"},

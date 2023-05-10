@@ -17,5 +17,5 @@ class ConsoleView : public View {
 class GraphicsView : public View {
  public:
   virtual ~GraphicsView() = default;
-  virtual void LoadResources() = 0;
+  //virtual void LoadResources() = 0;
 };

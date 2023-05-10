@@ -23,8 +23,17 @@ void SolarSystem::Initialize() {
   std::cout << "Solar System initialized" << std::endl;
 }
 
-void SolarSystem::Step() {
+void SolarSystem::Step(const float& time_current_ms) {
   std::cout << "Solar System Step" << std::endl;
+  auto search = sim_objects.find("Planet");
+  if (search != sim_objects.end()) {
+    float R = search->second["orbit"].get<float>();
+    float x = R*cosf(3.1416f*0.001f*time_current_ms);
+    float y = R*sinf(3.1416f*0.001f*time_current_ms);
+    float z = 0.0f;
+    search->second["coordinates"] = {x, y, z};
+  }
+
   NotifyObservers();
 }
 

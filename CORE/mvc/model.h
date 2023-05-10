@@ -10,7 +10,7 @@ class Model : public Observable {
   virtual ~Model() override = default;
 
   virtual void Initialize() = 0;
-  virtual void Step() = 0;
+  //virtual void Step() = 0;
 };
 
 class DefaultModel : public Model {

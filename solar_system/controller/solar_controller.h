@@ -16,7 +16,8 @@ class SolarController : public Controller {
 
  private:
   SolarSystem* model;
-  SolarConsoleView* view;
+  //SolarConsoleView* view;
+  SolarTestView* view;
   Timer timer;
   std::map<std::string, json> objects_to_refresh;
 };

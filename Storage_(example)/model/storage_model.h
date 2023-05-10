@@ -19,7 +19,7 @@ class Storage : public Model {
   Storage();
 
   void Initialize() override;
-  void Step() override;
+  void Step();
   void AddObserver(Observer *observer) override;
   void RemoveObserver(Observer *observer) override;
   EventVariant getEvent();

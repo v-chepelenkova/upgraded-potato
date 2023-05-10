@@ -2,7 +2,11 @@
 
 SolarController::SolarController(const std::string &program_abs_path) :
 model(new SolarSystem),
-view(new SolarConsoleView(model)) {
+//view(new SolarConsoleView(model)) {
+view(new SolarTestView(model, 1600,
+                              900,
+                              "Engine Editor",
+                              program_abs_path)) {
   model->AddObserver(this);
 }
 
@@ -15,12 +19,12 @@ SolarController::~SolarController() {
 void SolarController::Start() {
   model->Initialize();
   view->Initialize();
-  float one_frame_ms = 1000.0f / 1.0f;  // FPS
-  float time_end_ms = 4000.0f;
+  float one_frame_ms = 1000.0f / view->GetFPS();  // FPS
+  float time_end_ms = 10000.0f;
   model->SetTimeHowMuchMore(one_frame_ms);
   float time_elapsed_ms = 0.0f;
   while(time_elapsed_ms <= time_end_ms) {
-    model->Step();
+    model->Step(time_elapsed_ms);
     timer.Add(std::chrono::milliseconds((long)one_frame_ms),
               [this]{view->Refresh();},
               false);
