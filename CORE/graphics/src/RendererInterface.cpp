@@ -141,7 +141,9 @@ namespace Engine {
 	}
 
 	void RenderingInterface::Draw(const json& rendering_objects) {
-		// object dwaring here
+        RendererOpenGL::setClearColor(0.33, 0.33, 0.33, 1);
+        RendererOpenGL::clear();
+        // object dwaring here
 		// rendering objects has a structure of {ID : position}
         for (const auto& obj : rendering_objects) {
             glm::vec3 position = STDVecToGLMVec(obj["coordinates"].get<std::vector<float>>());
@@ -149,6 +151,7 @@ namespace Engine {
             m_drawing_objects.find(curr_ID)->second->SetPosition(position);
             m_drawing_objects.find(curr_ID)->second->Draw();
         }
+        mpWindow->onUpdate();
 	}
 
 	void RenderingInterface::FreeResources() {
