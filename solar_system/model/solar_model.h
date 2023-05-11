@@ -11,9 +11,9 @@ class SolarSystem : public DefaultModel {
   void Step(const float& time_current_ms);
   void SetTimeHowMuchMore(const float& time_ms);
 
-  void AddObserver(Observer *observer);
-  void RemoveObserver(Observer *observer);
+  void AddObserver(Observer *observer) override;
+  void RemoveObserver(Observer *observer) override;
 
  private:
-  void NotifyObservers();
+  void NotifyObservers() override;
 };

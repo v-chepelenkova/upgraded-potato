@@ -5,7 +5,7 @@
 #include <imgui/imgui.h>
 #include <glm/mat3x3.hpp>
 #include <glm/trigonometric.hpp>
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 
 namespace Engine {
@@ -292,12 +292,12 @@ namespace Engine {
 
 
 	// ===================== DRAWING OBJECT ===================== //
-    DrawingObject::DrawingObject(std::string& ID,
+    DrawingObject::DrawingObject(const std::string& ID,
                                  std::shared_ptr<PrimitiveObject>& primitive,
                                  std::shared_ptr<Material>& material,
                                  std::shared_ptr<ShaderProgram>& shader_program,
-                                 glm::vec3& position,
-                                 glm::vec3& rotation) :
+                                 const glm::vec3& position,
+                                 const glm::vec3& rotation) :
         m_ID(ID),
         m_primitive(primitive),
         m_material(material),

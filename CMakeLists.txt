@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 project(Metasimulator)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # Tell where the CORE folder with abstract classes is
 set(INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/CORE
                         ${PROJECT_SOURCE_DIR}/external)

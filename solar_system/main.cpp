@@ -51,7 +51,7 @@ void CreateScene() {
   };
 
   json camera_config = all["SCENE"]["CAMERA"].get<json>();
-  std::ofstream file("test.json");
+  std::ofstream file("scene.json");
   if (file.is_open()) {
     file << all.dump(4);
   }

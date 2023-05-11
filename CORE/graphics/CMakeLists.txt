@@ -86,6 +86,7 @@ add_subdirectory(../../external/glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE glm)
 
 add_subdirectory(../../external/spdlog ${CMAKE_CURRENT_BINARY_DIR}/spdlog)
+target_include_directories(${ENGINE_PROJECT_NAME} PUBLIC "../../external/spdlog/include")
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE spdlog)
 
 set(IMGUI_INCLUDES

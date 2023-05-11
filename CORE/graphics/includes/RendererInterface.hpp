@@ -27,12 +27,12 @@ using json = nlohmann::json;
 
 namespace Engine {
 	struct DrawingObject {
-		DrawingObject(	std::string& ID,
+		DrawingObject(	const std::string& ID,
 						std::shared_ptr<PrimitiveObject>& primitive,
 						std::shared_ptr<Material>& material,
 						std::shared_ptr<ShaderProgram>& shader_program,
-						glm::vec3& position,
-						glm::vec3& rotation);
+						const glm::vec3& position,
+						const glm::vec3& rotation);
 		
 		~DrawingObject();
 		

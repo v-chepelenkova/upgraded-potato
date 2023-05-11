@@ -5,7 +5,7 @@ namespace Engine {
 	namespace Shaders {
 
 	// VERTEX SHADER (vertex_pos - vertex_norm - texture_coords)
-	static const char* VERTEX_SHADER_WITH_BASIC_LIGHTNING =
+	static constexpr const char* VERTEX_SHADER_WITH_BASIC_LIGHTNING =
 		R"(#version 460
 			layout(location = 0) in vec3 vertex_position;
 			layout(location = 1) in vec3 vertex_normal;
@@ -75,7 +75,7 @@ namespace Engine {
 	// LIGHT SOURCE SHADERS
 
 	// VERTEX SHADER (vertex_pos - vertex_color)
-	const char* vertex_shader_light_source =
+	static constexpr const char* vertex_shader_light_source =
 		R"(#version 460
 			layout(location = 0) in vec3 vertex_position;
 			layout(location = 1) in vec3 vertex_color;
@@ -89,7 +89,7 @@ namespace Engine {
         )";
 
 	// FRAGMENT SHADER
-	const char* fragment_shader_light_source =
+	static constexpr const char* fragment_shader_light_source =
 		R"(#version 460
 			out vec4 frag_color;
 			
@@ -102,7 +102,7 @@ namespace Engine {
 	
 
 	//lineshady
-	const char* line_fragment = 
+	static constexpr const char* line_fragment =
 		R"(#version 460
 		
 			in vec3 v_colors;
@@ -113,7 +113,7 @@ namespace Engine {
 			}
 		)";
 
-	const char* line_vertex =
+	static constexpr const char* line_vertex =
 		R"(#version 460
 		
 			 

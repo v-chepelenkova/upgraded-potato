@@ -30,7 +30,7 @@ namespace Engine {
 
 	const float textScaleS = 10;
 	static double last_line_update_time = 0;
-	
+
 	float pulse = 1;// +glm::cos((2 * 3.14159265 * 1.f) * currrent_time * 1e-3); PLANET radius
 
 	float R = 10.f; // planet orbital radius
@@ -70,15 +70,15 @@ namespace Engine {
 	std::shared_ptr<ShaderProgram> pSP_basic; // basic shader with simple lightning
 
 	std::shared_ptr<ShaderProgram> pSP_line;
-	
+
 	// materials example
 	std::shared_ptr<Material> basic_material;
 	std::shared_ptr<Material> plane_material;
-	
+
 	// textures example
 	std::shared_ptr<Texture2D> p_texture_moon;
 	std::shared_ptr<Texture2D> p_texture_quads;
-	
+
 	// tracking line
 	std::vector<std::shared_ptr<Line>> lines(N_spheres);
 
@@ -87,7 +87,7 @@ namespace Engine {
 
 	// plane example
 	std::shared_ptr<Plane> example_plane;
-	
+
 	// sphere example
 	std::shared_ptr<Sphere> example_sphere;
 	std::shared_ptr<Sphere> ls_sphere;
@@ -200,15 +200,15 @@ namespace Engine {
 		//material init
 		basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess, p_texture_quads);
 		plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2* specular_factor, 2* shininess, p_texture_moon);
-		
+
 		// Initializing tracking line
 		for (int i = 0; i < N_spheres; i++)
 		{
 			lines[i] = std::make_shared<Line>(glm::vec3{5 + 2 * i * glm::cos(2.1415f * i), 5 + 2 * i * glm::sin(2.1415f * i), 0}, 100);
 			lines[i]->setShaderProgram(pSP_line);
 		}
-		
-		
+
+
 
 		// Initializing cube
 		example_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
@@ -217,7 +217,7 @@ namespace Engine {
 
       generate_quads_texture(data, width, height);
       //p_texture_quads = std::make_shared<Texture2D>(data, width, height);
-      
+
       basic_material->m_texture->bind(0);
 
 
@@ -261,7 +261,7 @@ namespace Engine {
 
       RendererOpenGL::enableDepthBuffer();
 
-
+      return true;
     }
 
 	int Application::start()
@@ -292,7 +292,7 @@ namespace Engine {
 	glm::vec2 Application::getCurrentCursorPosition() const {
 		return mpWindow->getCurrentCursorPosition();
 	}
-	
+
 	void Application::draw(double currrent_time) {
 		RendererOpenGL::setClearColor(mBackgroundColor[0], mBackgroundColor[1], mBackgroundColor[2], mBackgroundColor[3]);
 		RendererOpenGL::clear();
@@ -309,24 +309,24 @@ namespace Engine {
 		// set light source params for basic shader
 		pSP_basic->setVec3("light_position", glm::vec3(light_source_pos[0], light_source_pos[1], light_source_pos[2]));
 		pSP_basic->setVec3("light_color", glm::vec3(ls_brightness * light_source_color[0], ls_brightness * light_source_color[1], ls_brightness * light_source_color[2]));
-		
+
 		float rotate_in_radians = glm::radians(10.f);
 		glm::mat4 rotateMatrix;
 		glm::mat4 translateMatrix;
-		
+
 		// rendering cubes
 
 		unsigned int scale = 1;
 		unsigned int n_cubes = 10;
 		float epsilon = 1e-2;
-		
+
 		for (int i = 0; i < n_cubes; i++)
 		{
 			glm::mat4 translate_matrix( scale, 0, 0, 0,
 										0, scale, 0, 0,
 										0, 0, scale, 0,
 										0, 0, 5 + 1.5*scale + i*i*epsilon, 1);
-			
+
 			rotate_in_radians = glm::radians(currrent_time / (scale + 5));
 			rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
 									-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
@@ -345,7 +345,7 @@ namespace Engine {
 		// rendering spheres
 		plane_material->m_texture->bind(0);
 
-		
+
 		rotate_in_radians = glm::radians(currrent_time*3e-1);
 		rotateMatrix = glm::mat4(cos(rotate_in_radians), sin(rotate_in_radians), 0, 0,
 			-sin(rotate_in_radians), cos(rotate_in_radians), 0, 0,
@@ -360,7 +360,7 @@ namespace Engine {
 										0, pulse, 0, 0,
 										0, 0, pulse, 0,
 										sphere_position[0], sphere_position[1], sphere_position[2], 1);
-			
+
 			example_sphere->setModelMatrix(translateMatrix*rotateMatrix);
 			example_sphere->draw();
 			lines[i]->addPointToLine(sphere_position);
@@ -381,7 +381,7 @@ namespace Engine {
 			example_sphere->draw();
 			lines[i]->addPointToLine(sphere_position);
 		}
-		
+
 		basic_material->m_texture->bind(0);
 		// rendering light source
 		{
@@ -390,7 +390,7 @@ namespace Engine {
 			if (is_disco) {
 				float T = currrent_time * 1e-3;
 				float caramel_dancen[3] = {1.f / 2.f * (1 + glm::cos(T / 0.1f)), 1.f / 2.f * (1 - glm::cos(T / 0.1f)), 1.f / 2.f * (1 + glm::sin(T / 0.1f))};
-			
+
 				light_source_color[0] = caramel_dancen[0];
 				light_source_color[1] = caramel_dancen[1];
 				light_source_color[2] = caramel_dancen[2];
@@ -417,8 +417,8 @@ namespace Engine {
 			{
 				lines[i]->draw();
 			}
-			
-			
+
+
 		}
 
 		UIModule::onUiDrawBegin();
