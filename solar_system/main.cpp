@@ -51,14 +51,14 @@ void CreateScene() {
         {
           {"ID", "Sun"},
           {"ATTRIBUTES", {
-            {"type", "planet"},
+            {"type", "star"},
             {"mass", 10.0},
             {"radius", 2.0},
             {"coordinates", {0.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},
               {"texture", "res/textures/obama_sphere.png"},
-              {"material", "default"}
+              {"material", "light_source"}
               }}
             }
           }

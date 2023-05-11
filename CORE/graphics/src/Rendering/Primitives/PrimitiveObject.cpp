@@ -27,11 +27,19 @@ namespace Engine {
 
 	void PrimitiveObject::setPosition(const glm::vec3& new_position)
 	{
-		glm::mat4 pos_matrix(	1, 0, 0, 0,
+		/*glm::mat4 pos_matrix(	1, 0, 0, 0,
 								0, 1, 0, 0,
 								0, 0, 1, 0,
-								new_position[0], new_position[1], new_position[2], 1);
-
-		m_model_matrix = pos_matrix;
+								new_position[0], new_position[1], new_position[2], 1);*/
+		m_model_matrix[3][0] = new_position[0];
+		m_model_matrix[3][1] = new_position[1];
+		m_model_matrix[3][2] = new_position[2];
+		//m_model_matrix = pos_matrix;
+	}
+	
+	void PrimitiveObject::setScale(const float& new_scale) {
+		m_model_matrix[0][0] = new_scale;
+		m_model_matrix[1][1] = new_scale;
+		m_model_matrix[2][2] = new_scale;
 	}
 }

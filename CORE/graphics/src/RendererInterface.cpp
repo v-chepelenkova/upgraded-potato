@@ -143,12 +143,18 @@ namespace Engine {
 	void RenderingInterface::Draw(const json& rendering_objects) {
         RendererOpenGL::setClearColor(0.33, 0.33, 0.33, 1);
         RendererOpenGL::clear();
-        pSP_basic->bind();
+        
         auto VPM = m_camera.getProjectionMatrix() * m_camera.getViewMatrix();
+        // Basic shader camera variables update
+        pSP_basic->bind();
         pSP_basic->setMatrix4("view_projection_matrix", VPM);
         pSP_basic->setVec3("camera_position", m_camera.getPosition());
-        
-        pSP_basic->setVec3("light_color", light_source_color);
+        if (m_light_source_found) {
+            pSP_basic->setVec3("light_color", light_source_color);
+        }
+        // Light source camera variables update
+        pSP_light_source->bind();
+        pSP_light_source->setMatrix4("view_projection_matrix", VPM);
         
         // object dwaring here
 		// rendering objects has a structure of {ID : coordinates}
@@ -204,7 +210,11 @@ namespace Engine {
             LOG_CRITICAL("Light source shader compilation error");
             return; // maybe throw an exception later
         }
-
+        
+        pSP_light_source->bind();
+        pSP_light_source->setVec3("light_color", light_source_color);
+        pSP_light_source->unbind();
+        
         RendererOpenGL::enableDepthBuffer();
     }
 
@@ -261,6 +271,7 @@ namespace Engine {
         std::shared_ptr<ShaderProgram> shader_program;
         if (material == "light_source") {
             shader_program = pSP_light_source;
+            m_light_source_found = true;
         }
         else if (material == "default") {
             shader_program = pSP_basic;
@@ -295,8 +306,8 @@ namespace Engine {
             LOG_ERROR("Unknown primitive model type - ", model);
             return nullptr;
         }
-        glm::vec3 glm_pos = glm::vec3{ position[0], position[1], position[2] };
-        return std::make_unique<DrawingObject>(ID, primitive, basic_material, shader_program, glm_pos, glm::vec3{ 0.f, 0.f, 0.f }, type);
+
+        return std::make_unique<DrawingObject>(ID, primitive, basic_material, shader_program, vecToGLMVec(position), glm::vec3{ 0.f, 0.f, 0.f }, type, radius);
     }
 
     glm::vec2 RenderingInterface::getCurrentCursorPosition() const {
@@ -312,17 +323,20 @@ namespace Engine {
                                  const std::shared_ptr<ShaderProgram>& shader_program,
                                  const glm::vec3& position,
                                  const glm::vec3& rotation,
-                                 const std::string& type) :
+                                 const std::string& type,
+                                 const float& scale) :
         m_ID(ID),
         m_primitive(primitive),
         m_material(material),
         m_shader_program(shader_program),
         m_position(position),
         m_rotation(rotation),
-        m_ls_type(type)
+        m_ls_type(type),
+        m_scale(scale)
     {
         m_primitive->setShaderProgram(shader_program);
         m_primitive->setPosition(m_position);
+        m_primitive->setScale(scale);
     }
 
     DrawingObject::~DrawingObject() {
@@ -344,6 +358,10 @@ namespace Engine {
     void DrawingObject::SetPosition(const glm::vec3& new_position) {
         m_position = new_position;
         m_primitive->setPosition(new_position);
+    }
+
+    void DrawingObject::SetScale(const float& new_scale) {
+        m_primitive->setScale(new_scale);
     }
     
     glm::vec3 vecToGLMVec(const std::vector<float> vec) {

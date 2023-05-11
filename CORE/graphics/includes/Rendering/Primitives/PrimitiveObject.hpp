@@ -31,6 +31,8 @@ namespace Engine {
 		virtual void setModelMatrix(const glm::mat4& new_model_matrix) { m_model_matrix = new_model_matrix; };
 
 		virtual void setPosition(const glm::vec3& new_position);
+		
+		virtual void setScale(const float& new_scale);
 
 	protected:
 		virtual void configureObject() = 0;

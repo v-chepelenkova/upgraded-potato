@@ -33,13 +33,15 @@ namespace Engine {
 						const std::shared_ptr<ShaderProgram>& shader_program,
 						const glm::vec3& position,
 						const glm::vec3& rotation,
-						const std::string& type);
+						const std::string& type,
+						const float& scale);
 		
 		~DrawingObject();
 		
 		void Draw();
 		
 		void SetPosition(const glm::vec3& new_position);
+		void SetScale(const float& new_scale);
 
 		std::string m_ID;
 		std::shared_ptr<PrimitiveObject> m_primitive; // expand later for non primitive meshes
@@ -50,6 +52,7 @@ namespace Engine {
 		std::shared_ptr<Line> m_tracking_line = nullptr;
 		bool drawTrackingLine = false;
 		std::string m_ls_type;
+		float m_scale = 1;
 	};
 
 	static glm::vec3 vecToGLMVec(const std::vector<float> vec);
@@ -99,6 +102,7 @@ namespace Engine {
 		glm::vec3 light_source_pos = { 0.f, 0.f, 0.f };
 		glm::vec3 light_source_color = { 1.f, 1.f, 0.f};
 		float ls_brightness = 15;
+		bool m_light_source_found = false;
 
 		float ambient_factor = 0.2f;
 		float diffuse_factor = 1.f;
@@ -106,7 +110,7 @@ namespace Engine {
 		float shininess = 5.f;
 
 		bool perspectiveCamera = true;
-		Camera m_camera;// { glm::vec3(-20.f, 0.f, 10.f) }; // starting position of camera
+		Camera m_camera;
 
 		std::shared_ptr<class Window> mpWindow;
 		EventDispatcher mEventDispatcher;
