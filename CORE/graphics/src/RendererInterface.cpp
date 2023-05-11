@@ -115,7 +115,7 @@ namespace Engine {
 	}
 
 	RenderingInterface::~RenderingInterface() {
-
+        FreeResources();
 	}
 
 	void RenderingInterface::ConfigureObjects(const json& configuration_data) {

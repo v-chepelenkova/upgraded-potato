@@ -77,6 +77,9 @@ namespace Engine {
 		virtual void Draw(const json& rendering_objects);
 
 		virtual void FreeResources();
+
+		bool getWindowState() const { return mbCloseWindow; };
+
 	private:
 		void InitializePrimitives();
 		

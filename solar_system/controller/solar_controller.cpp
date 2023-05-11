@@ -23,7 +23,7 @@ void SolarController::Start() {
   float time_end_ms = 10000.0f;
   model->SetTimeHowMuchMore(one_frame_ms);
   float time_elapsed_ms = 0.0f;
-  while(time_elapsed_ms <= time_end_ms) {
+  while(time_elapsed_ms <= time_end_ms && !(view->IsWindowDead())) {
     model->Step(time_elapsed_ms);
     timer.Add(std::chrono::milliseconds((long)one_frame_ms),
               [this]{view->Refresh();},

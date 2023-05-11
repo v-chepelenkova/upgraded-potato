@@ -25,7 +25,7 @@ class SolarTestView : GraphicsView {
   
   void Initialize() override;
   void Refresh() override;
-
+  bool IsWindowDead() const { return render->getWindowState(); };
   float GetFPS() const { return fps;}
 
  private:
