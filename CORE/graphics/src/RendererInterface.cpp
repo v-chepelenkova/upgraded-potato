@@ -143,12 +143,23 @@ namespace Engine {
 	void RenderingInterface::Draw(const json& rendering_objects) {
         RendererOpenGL::setClearColor(0.33, 0.33, 0.33, 1);
         RendererOpenGL::clear();
+        pSP_basic->bind();
+        auto VPM = m_camera.getProjectionMatrix() * m_camera.getViewMatrix();
+        pSP_basic->setMatrix4("view_projection_matrix", VPM);
+        pSP_basic->setVec3("camera_position", m_camera.getPosition());
+        
+        pSP_basic->setVec3("light_color", light_source_color);
+        
         // object dwaring here
-		// rendering objects has a structure of {ID : position}
+		// rendering objects has a structure of {ID : coordinates}
         for (const auto& obj : rendering_objects) {
-            glm::vec3 position = STDVecToGLMVec(obj["coordinates"].get<std::vector<float>>());
+            glm::vec3 position = vecToGLMVec(obj["coordinates"].get<std::vector<float>>());
             std::string curr_ID = obj["ID"].get<std::string>();
             m_drawing_objects.find(curr_ID)->second->SetPosition(position);
+            if (m_drawing_objects.find(curr_ID)->second->m_ls_type == "star") {
+                pSP_basic->bind();
+                pSP_basic->setVec3("light_source_position", m_drawing_objects.find(curr_ID)->second->m_position);
+            }
             m_drawing_objects.find(curr_ID)->second->Draw();
         }
         mpWindow->onUpdate();
@@ -206,7 +217,7 @@ namespace Engine {
         m_camera.setFieldOfView(fov);
         m_camera.setFarClipPlane(far_plane);
         m_camera.setNearClipPlane(near_plane);
-        m_camera.setPositionRotation(STDVecToGLMVec(position), STDVecToGLMVec(rotation));
+        m_camera.setPositionRotation(vecToGLMVec(position), vecToGLMVec(rotation));
     }
 
     void RenderingInterface::GenerateQuadsTexture(  unsigned char* data,
@@ -285,7 +296,7 @@ namespace Engine {
             return nullptr;
         }
         glm::vec3 glm_pos = glm::vec3{ position[0], position[1], position[2] };
-        return std::make_unique<DrawingObject>(ID, primitive, basic_material, shader_program, glm_pos, glm::vec3{ 0.f, 0.f, 0.f });
+        return std::make_unique<DrawingObject>(ID, primitive, basic_material, shader_program, glm_pos, glm::vec3{ 0.f, 0.f, 0.f }, type);
     }
 
     glm::vec2 RenderingInterface::getCurrentCursorPosition() const {
@@ -296,17 +307,19 @@ namespace Engine {
 
 	// ===================== DRAWING OBJECT ===================== //
     DrawingObject::DrawingObject(const std::string& ID,
-                                 std::shared_ptr<PrimitiveObject>& primitive,
-                                 std::shared_ptr<Material>& material,
-                                 std::shared_ptr<ShaderProgram>& shader_program,
+                                 const std::shared_ptr<PrimitiveObject>& primitive,
+                                 const std::shared_ptr<Material>& material,
+                                 const std::shared_ptr<ShaderProgram>& shader_program,
                                  const glm::vec3& position,
-                                 const glm::vec3& rotation) :
+                                 const glm::vec3& rotation,
+                                 const std::string& type) :
         m_ID(ID),
         m_primitive(primitive),
         m_material(material),
         m_shader_program(shader_program),
         m_position(position),
-        m_rotation(rotation)
+        m_rotation(rotation),
+        m_ls_type(type)
     {
         m_primitive->setShaderProgram(shader_program);
         m_primitive->setPosition(m_position);
@@ -333,12 +346,15 @@ namespace Engine {
         m_primitive->setPosition(new_position);
     }
     
-    glm::vec3 STDVecToGLMVec(const std::vector<float> vec)
-    {
+    glm::vec3 vecToGLMVec(const std::vector<float> vec) {
         if (vec.size() != 3) {
             LOG_ERROR("STDVecToGLMVec: Vector must have exactly 3 elements!");
             return glm::vec3(0.f, 0.f, 0.f);
         }
         return glm::vec3{vec[0], vec[1], vec[2]};
+    }
+
+    glm::vec3 vecToGLMVec(const float* vec) {
+        return glm::vec3{ *(vec), *(vec + 1), *(vec + 2) };
     }
 }

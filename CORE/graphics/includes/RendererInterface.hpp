@@ -28,11 +28,12 @@ using json = nlohmann::json;
 namespace Engine {
 	struct DrawingObject {
 		DrawingObject(	const std::string& ID,
-						std::shared_ptr<PrimitiveObject>& primitive,
-						std::shared_ptr<Material>& material,
-						std::shared_ptr<ShaderProgram>& shader_program,
+						const std::shared_ptr<PrimitiveObject>& primitive,
+						const std::shared_ptr<Material>& material,
+						const std::shared_ptr<ShaderProgram>& shader_program,
 						const glm::vec3& position,
-						const glm::vec3& rotation);
+						const glm::vec3& rotation,
+						const std::string& type);
 		
 		~DrawingObject();
 		
@@ -48,9 +49,11 @@ namespace Engine {
 		glm::vec3 m_rotation;
 		std::shared_ptr<Line> m_tracking_line = nullptr;
 		bool drawTrackingLine = false;
+		std::string m_ls_type;
 	};
 
-	static glm::vec3 STDVecToGLMVec(const std::vector<float> vec);
+	static glm::vec3 vecToGLMVec(const std::vector<float> vec);
+	static glm::vec3 vecToGLMVec(const float* vec);
 
 	class RenderingInterface {
 	public:
@@ -93,8 +96,8 @@ namespace Engine {
 		glm::vec2 getCurrentCursorPosition() const;
 
 		// lightning parameters
-		float light_source_pos[3] = { 0.f, 0.f, 0.f };
-		float light_source_color[3] = {1.f, 1.f, 1.f};
+		glm::vec3 light_source_pos = { 0.f, 0.f, 0.f };
+		glm::vec3 light_source_color = { 1.f, 1.f, 0.f};
 		float ls_brightness = 15;
 
 		float ambient_factor = 0.2f;

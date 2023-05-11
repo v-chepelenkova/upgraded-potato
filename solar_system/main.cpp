@@ -6,13 +6,13 @@ void CreateScene() {
       {"SCENE", {
         {"CAMERA",
           {
-              {"position", {0.0, 0.0, 0.0}},
+              {"position", {-10, 0.0, 0.0}},
               {"rotation", {0.0, 0.0, 0.0}},
               {"fov", 60.0},
               {"near_plane", 0.1},
               {"far_plane", 100.0},
           }},
-         {"FPS", 1}
+         {"FPS", 75}
         }
       },
       {"OBJECTS", {
@@ -33,16 +33,32 @@ void CreateScene() {
           }
         },
         {
+          {"ID", "Planet2"},
+          {"ATTRIBUTES", {
+            {"type", "planet"},
+            {"mass", 1.0},
+            {"radius", 1.0},
+            {"orbit", 5.0},
+            {"coordinates", {0.0, -2.5, -1.0}},
+            {"GRAPHICS", {
+              {"model", "sphere"},
+              {"texture", "res/textures/earth2048.bmp"},
+              {"material", "default"}
+              }}
+            }
+          }
+        },
+        {
           {"ID", "Sun"},
           {"ATTRIBUTES", {
-            {"type", "star"},
+            {"type", "planet"},
             {"mass", 10.0},
             {"radius", 2.0},
             {"coordinates", {0.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},
               {"texture", "res/textures/obama_sphere.png"},
-              {"material", "light_source"}
+              {"material", "default"}
               }}
             }
           }
