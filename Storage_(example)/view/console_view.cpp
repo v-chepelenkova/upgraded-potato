@@ -8,17 +8,17 @@
 struct StorageEventHandler;
 
 StorageConsoleView::StorageConsoleView(const std::string &programAbsPath) {
-  pEngineEditor_ = std::make_shared<App>();
+  //pEngineEditor_ = std::make_shared<App>();
   this->programAbsPath_ = programAbsPath;
 }
 
 void StorageConsoleView::Initialize() {
-  pEngineEditor_->initialize(1600,
-                             900,
-                             "Engine Editor",
-                             programAbsPath_);
-//  std::thread guiThread([this](){pEngineEditor_->start();});
-  pEngineEditor_->start();
+//  pEngineEditor_->initialize(1600,
+//                             900,
+//                             "Engine Editor",
+//                             programAbsPath_);
+////  std::thread guiThread([this](){pEngineEditor_->start();});
+//  pEngineEditor_->start();
 }
 
 void StorageConsoleView::Refresh() {
