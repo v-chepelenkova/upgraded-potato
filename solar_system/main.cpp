@@ -12,7 +12,7 @@ void CreateScene() {
               {"near_plane", 0.1},
               {"far_plane", 100.0},
           }},
-         {"FPS", 90}
+         {"FPS", 1}
         }
       },
       {"OBJECTS", {
@@ -26,7 +26,7 @@ void CreateScene() {
             {"coordinates", {5.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},
-              {"texture", "earth.png"},
+              {"texture", "res/textures/earth2048.bmp"},
               {"material", "default"}
               }}
             }
@@ -41,7 +41,7 @@ void CreateScene() {
             {"coordinates", {0.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},
-              {"texture", "sun.png"},
+              {"texture", "res/textures/obama_sphere.png"},
               {"material", "light_source"}
               }}
             }

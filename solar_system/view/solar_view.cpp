@@ -40,8 +40,10 @@ void SolarTestView::Refresh() {
   for (const auto& record : simulation_objects) {
     json obj;
     obj["ID"] = record.first;
-    obj["coordinates"] = record.second.get<std::vector<float>>();
-    rendering_objects.emplace(obj); 
+    obj["coordinates"] = record.second["coordinates"].get<std::vector<float>>();
+    std::cout << obj["coordinates"] << std::endl;
+    std::cout << obj["ID"] << std::endl;
+    rendering_objects.emplace_back(obj); 
   }
   render->Draw(rendering_objects);
 }
