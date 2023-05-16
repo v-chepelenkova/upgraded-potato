@@ -43,14 +43,16 @@ namespace Engine {
 		void SetPosition(const glm::vec3& new_position);
 		void SetScale(const float& new_scale);
 
+		void SetDrawTrackingLine(const bool flag);
+
 		std::string m_ID;
 		std::shared_ptr<PrimitiveObject> m_primitive; // expand later for non primitive meshes
 		std::shared_ptr<Material> m_material;
 		std::shared_ptr<ShaderProgram> m_shader_program;
 		glm::vec3 m_position;
 		glm::vec3 m_rotation;
-		std::shared_ptr<Line> m_tracking_line = nullptr;
-		bool drawTrackingLine = false;
+		std::unique_ptr<Line> m_tracking_line = nullptr;
+		bool m_draw_tracking_line = false;
 		std::string m_ls_type;
 		float m_scale = 1;
 	};

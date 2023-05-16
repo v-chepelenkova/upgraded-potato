@@ -6,13 +6,13 @@ void CreateScene() {
       {"SCENE", {
         {"CAMERA",
           {
-              {"position", {-10, 0.0, 0.0}},
+              {"position", {-10.0, 0.0, 0}},
               {"rotation", {0.0, 0.0, 0.0}},
               {"fov", 60.0},
               {"near_plane", 0.1},
               {"far_plane", 100.0},
           }},
-         {"FPS", 75}
+         {"FPS", 70}
         }
       },
       {"OBJECTS", {
@@ -22,7 +22,7 @@ void CreateScene() {
             {"type", "planet"},
             {"mass", 1.0},
             {"radius", 1.0},
-            {"orbit", 5.0},
+            {"orbit", 6.0},
             {"coordinates", {5.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},

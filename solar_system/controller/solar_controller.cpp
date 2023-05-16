@@ -23,9 +23,13 @@ void SolarController::Start() {
   float time_end_ms = 10000.0f;
   model->SetTimeHowMuchMore(one_frame_ms);
   float time_elapsed_ms = 0.0f;
+  
+ 
+  
+
   while(time_elapsed_ms <= time_end_ms && !(view->IsWindowDead())) {
-    model->Step(time_elapsed_ms);
-    timer.Add(std::chrono::milliseconds((long)one_frame_ms),
+      model->Step(time_elapsed_ms);
+      timer.Add(std::chrono::milliseconds((long)one_frame_ms),
               [this]{view->Refresh();},
               false);
     time_elapsed_ms += one_frame_ms;
@@ -33,7 +37,7 @@ void SolarController::Start() {
 }
 
 void SolarController::Update() {
-  std::cout << "    I'm notified" << std::endl << std::endl;
+  //std::cout << "    I'm notified" << std::endl << std::endl;
   // auto context = model->getEvent();
   // std::visit(overloaded {
   //     [this](DeliveryEvent& arg) {

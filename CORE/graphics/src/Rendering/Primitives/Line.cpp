@@ -57,6 +57,16 @@ namespace Engine {
 		reconfigureLine();
 	}
 
+	bool Line::hasShaderProgram() const {
+		if (m_sp != nullptr) {
+			return true;
+		}
+		else{
+			return false;
+		}
+		return false;
+	}
+
     void Line::configureObject() {
 		// array object initialization here
 		const unsigned int nPoints = m_resolution;

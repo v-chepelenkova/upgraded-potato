@@ -41,9 +41,14 @@ void SolarTestView::Refresh() {
     json obj;
     obj["ID"] = record.first;
     obj["coordinates"] = record.second["coordinates"].get<std::vector<float>>();
-    std::cout << obj["coordinates"] << std::endl;
-    std::cout << obj["ID"] << std::endl;
+    //std::cout << obj["coordinates"] << std::endl;
+    //std::cout << obj["ID"] << std::endl;
     rendering_objects.emplace_back(obj); 
   }
+  auto begin = std::chrono::steady_clock::now();
   render->Draw(rendering_objects);
+  auto end = std::chrono::steady_clock::now();
+  auto elapsed_ms = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
+  std::cout << "drw_time = " << elapsed_ms << " mus" << std::endl;
+  
 }

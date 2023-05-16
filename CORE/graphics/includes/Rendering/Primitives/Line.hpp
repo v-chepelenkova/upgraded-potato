@@ -13,6 +13,8 @@ namespace Engine {
 
 		void addPointToLine(const glm::vec3& newPoint); // add new point to the 
 
+		bool hasShaderProgram() const;
+
 	protected:
 		virtual void configureObject() override;
 

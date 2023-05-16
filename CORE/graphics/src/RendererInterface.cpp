@@ -162,11 +162,19 @@ namespace Engine {
             glm::vec3 position = vecToGLMVec(obj["coordinates"].get<std::vector<float>>());
             std::string curr_ID = obj["ID"].get<std::string>();
             m_drawing_objects.find(curr_ID)->second->SetPosition(position);
+            
+            /*if (m_drawing_objects.find(curr_ID)->second->m_tracking_line != nullptr) {
+                if (!m_drawing_objects.find(curr_ID)->second->m_tracking_line->hasShaderProgram()) {
+                    m_drawing_objects.find(curr_ID)->second->m_tracking_line->setShaderProgram(pSP_line);
+                }
+            }*/
+            
             if (m_drawing_objects.find(curr_ID)->second->m_ls_type == "star") {
                 pSP_basic->bind();
                 pSP_basic->setVec3("light_source_position", m_drawing_objects.find(curr_ID)->second->m_position);
             }
             m_drawing_objects.find(curr_ID)->second->Draw();
+            
         }
         mpWindow->onUpdate();
 	}
@@ -353,6 +361,11 @@ namespace Engine {
             m_material->m_texture->bind(0);
         }
         m_primitive->draw();
+
+        /*if (m_tracking_line != nullptr) {
+            m_tracking_line->addPointToLine(m_position);
+            m_tracking_line->draw();
+        }*/
     }
 
     void DrawingObject::SetPosition(const glm::vec3& new_position) {
@@ -362,6 +375,16 @@ namespace Engine {
 
     void DrawingObject::SetScale(const float& new_scale) {
         m_primitive->setScale(new_scale);
+    }
+
+    void DrawingObject::SetDrawTrackingLine(const bool flag) {
+        m_draw_tracking_line = flag;
+        if (m_draw_tracking_line) {
+            m_tracking_line = std::make_unique<Line>(m_position, 100);
+        }
+        else {
+            m_tracking_line = nullptr;
+        }
     }
     
     glm::vec3 vecToGLMVec(const std::vector<float> vec) {
