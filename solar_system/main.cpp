@@ -12,7 +12,7 @@ void CreateScene() {
               {"near_plane", 0.1},
               {"far_plane", 100.0},
           }},
-         {"FPS", 70}
+         {"FPS", 75}
         }
       },
       {"OBJECTS", {

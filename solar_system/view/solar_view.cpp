@@ -35,7 +35,7 @@ void SolarTestView::Initialize() {
 }
 
 void SolarTestView::Refresh() {
-  json rendering_objects;
+    json rendering_objects;
   auto simulation_objects = model->GetSimulationObjects();
   for (const auto& record : simulation_objects) {
     json obj;
@@ -45,10 +45,5 @@ void SolarTestView::Refresh() {
     //std::cout << obj["ID"] << std::endl;
     rendering_objects.emplace_back(obj); 
   }
-  auto begin = std::chrono::steady_clock::now();
   render->Draw(rendering_objects);
-  auto end = std::chrono::steady_clock::now();
-  auto elapsed_ms = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
-  std::cout << "drw_time = " << elapsed_ms << " mus" << std::endl;
-  
 }
