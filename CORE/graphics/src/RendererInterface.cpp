@@ -156,6 +156,9 @@ namespace Engine {
         pSP_light_source->bind();
         pSP_light_source->setMatrix4("view_projection_matrix", VPM);
         
+        pSP_line->bind();
+        pSP_line->setMatrix4("view_projection_matrix", VPM);
+
         // object dwaring here
 		// rendering objects has a structure of {ID : coordinates}
         for (const auto& obj : rendering_objects) {
@@ -163,11 +166,11 @@ namespace Engine {
             std::string curr_ID = obj["ID"].get<std::string>();
             m_drawing_objects.find(curr_ID)->second->SetPosition(position);
             
-            /*if (m_drawing_objects.find(curr_ID)->second->m_tracking_line != nullptr) {
+            if (m_drawing_objects.find(curr_ID)->second->m_tracking_line != nullptr) {
                 if (!m_drawing_objects.find(curr_ID)->second->m_tracking_line->hasShaderProgram()) {
                     m_drawing_objects.find(curr_ID)->second->m_tracking_line->setShaderProgram(pSP_line);
                 }
-            }*/
+            }
             
             if (m_drawing_objects.find(curr_ID)->second->m_ls_type == "star") {
                 pSP_basic->bind();
@@ -273,6 +276,7 @@ namespace Engine {
         std::string model = object_config["ATTRIBUTES"]["GRAPHICS"]["model"].get<std::string>(); // primitive
         std::string texture_path = object_config["ATTRIBUTES"]["GRAPHICS"]["texture"].get<std::string>(); // texture path
         std::string material = object_config["ATTRIBUTES"]["GRAPHICS"]["material"].get<std::string>(); // material
+        bool has_track_line = object_config["ATTRIBUTES"]["GRAPHICS"]["tracking_line"].get<bool>();
 
         auto texture = ResourceManager::loadTexture(ID, texture_path);
 
@@ -315,7 +319,15 @@ namespace Engine {
             return nullptr;
         }
 
-        return std::make_unique<DrawingObject>(ID, primitive, basic_material, shader_program, vecToGLMVec(position), glm::vec3{ 0.f, 0.f, 0.f }, type, radius);
+        return std::make_unique<DrawingObject>(ID,
+                                               primitive,
+                                               basic_material,
+                                               shader_program,
+                                               vecToGLMVec(position),
+                                               glm::vec3{ 0.f, 0.f, 0.f },
+                                               type,
+                                               radius,
+                                               has_track_line);
     }
 
     glm::vec2 RenderingInterface::getCurrentCursorPosition() const {
@@ -332,7 +344,8 @@ namespace Engine {
                                  const glm::vec3& position,
                                  const glm::vec3& rotation,
                                  const std::string& type,
-                                 const float& scale) :
+                                 const float& scale,
+                                 const bool has_track_line) :
         m_ID(ID),
         m_primitive(primitive),
         m_material(material),
@@ -345,6 +358,7 @@ namespace Engine {
         m_primitive->setShaderProgram(shader_program);
         m_primitive->setPosition(m_position);
         m_primitive->setScale(scale);
+        SetDrawTrackingLine(has_track_line);
     }
 
     DrawingObject::~DrawingObject() {
@@ -362,10 +376,10 @@ namespace Engine {
         }
         m_primitive->draw();
 
-        /*if (m_tracking_line != nullptr) {
+        if (m_tracking_line != nullptr) {
             m_tracking_line->addPointToLine(m_position);
             m_tracking_line->draw();
-        }*/
+        }
     }
 
     void DrawingObject::SetPosition(const glm::vec3& new_position) {

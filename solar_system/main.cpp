@@ -6,8 +6,8 @@ void CreateScene() {
       {"SCENE", {
         {"CAMERA",
           {
-              {"position", {-10.0, 0.0, 0}},
-              {"rotation", {0.0, 0.0, 0.0}},
+              {"position", {-10.0, 0.0, 10}},
+              {"rotation", {0.0, 45.0, 0.0}},
               {"fov", 60.0},
               {"near_plane", 0.1},
               {"far_plane", 100.0},
@@ -27,7 +27,8 @@ void CreateScene() {
             {"GRAPHICS", {
               {"model", "sphere"},
               {"texture", "res/textures/earth2048.bmp"},
-              {"material", "default"}
+              {"material", "default"},
+              {"tracking_line", true}
               }}
             }
           }
@@ -43,7 +44,8 @@ void CreateScene() {
             {"GRAPHICS", {
               {"model", "sphere"},
               {"texture", "res/textures/earth2048.bmp"},
-              {"material", "default"}
+              {"material", "default"},
+              {"tracking_line", false}
               }}
             }
           }
@@ -58,7 +60,8 @@ void CreateScene() {
             {"GRAPHICS", {
               {"model", "sphere"},
               {"texture", "res/textures/obama_sphere.png"},
-              {"material", "light_source"}
+              {"material", "light_source"},
+              {"tracking_line", false}
               }}
             }
           }

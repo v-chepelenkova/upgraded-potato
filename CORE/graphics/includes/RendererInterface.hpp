@@ -34,7 +34,8 @@ namespace Engine {
 						const glm::vec3& position,
 						const glm::vec3& rotation,
 						const std::string& type,
-						const float& scale);
+						const float& scale,
+						const bool has_track_line = false);
 		
 		~DrawingObject();
 		
