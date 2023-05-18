@@ -188,11 +188,8 @@ namespace Engine {
 	}
 
     void RenderingInterface::InitializePrimitives() {
-        p_texture_quads = ResourceManager::loadTexture("Face", "res/textures/obamna.png");
-        p_texture_moon = ResourceManager::loadTexture("Moon", "res/textures/obama_sphere.png");
-        
-        basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess, p_texture_quads);
-        plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2 * specular_factor, 2 * shininess, p_texture_moon);
+        basic_material = std::make_shared<Material>(ambient_factor, diffuse_factor, specular_factor, shininess, nullptr);
+        plane_material = std::make_shared<Material>(ambient_factor, diffuse_factor, 2 * specular_factor, 2 * shininess, nullptr);
 
         p_cube = std::make_shared<Cube>(glm::vec3(0, 0, 0), 1, 1, 1);
         p_ls_sphere = std::make_shared<Sphere>(glm::vec3(0, 0, 0), 1);
@@ -224,7 +221,6 @@ namespace Engine {
         
         pSP_light_source->bind();
         pSP_light_source->setVec3("light_color", light_source_color);
-        pSP_light_source->unbind();
         
         RendererOpenGL::enableDepthBuffer();
     }
@@ -322,6 +318,7 @@ namespace Engine {
         return std::make_unique<DrawingObject>(ID,
                                                primitive,
                                                basic_material,
+                                               texture,
                                                shader_program,
                                                vecToGLMVec(position),
                                                glm::vec3{ 0.f, 0.f, 0.f },
@@ -340,6 +337,7 @@ namespace Engine {
     DrawingObject::DrawingObject(const std::string& ID,
                                  const std::shared_ptr<PrimitiveObject>& primitive,
                                  const std::shared_ptr<Material>& material,
+                                 const std::shared_ptr<Texture2D>& texture,
                                  const std::shared_ptr<ShaderProgram>& shader_program,
                                  const glm::vec3& position,
                                  const glm::vec3& rotation,
@@ -349,6 +347,7 @@ namespace Engine {
         m_ID(ID),
         m_primitive(primitive),
         m_material(material),
+        m_texture2D(texture),
         m_shader_program(shader_program),
         m_position(position),
         m_rotation(rotation),
@@ -371,8 +370,8 @@ namespace Engine {
     void DrawingObject::Draw() {
         m_shader_program->bind();
         m_primitive->setMaterial(m_material);
-        if (m_material->m_texture != nullptr) {
-            m_material->m_texture->bind(0);
+        if (m_texture2D != nullptr) {
+            m_texture2D->bind(0);
         }
         m_primitive->draw();
 

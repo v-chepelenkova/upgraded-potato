@@ -43,6 +43,23 @@ void CreateScene() {
             {"coordinates", {0.0, -2.5, -1.0}},
             {"GRAPHICS", {
               {"model", "sphere"},
+              {"texture", "res/textures/obama_sphere.png"},
+              {"material", "default"},
+              {"tracking_line", false}
+              }}
+            }
+          }
+        },
+      {
+          {"ID", "Planet3"},
+          {"ATTRIBUTES", {
+            {"type", "planet"},
+            {"mass", 1.0},
+            {"radius", 1.0},
+            {"orbit", 10.0},
+            {"coordinates", {0.0, -2.5, -1.0}},
+            {"GRAPHICS", {
+              {"model", "cube"},
               {"texture", "res/textures/earth2048.bmp"},
               {"material", "default"},
               {"tracking_line", false}
@@ -54,8 +71,8 @@ void CreateScene() {
           {"ID", "Sun"},
           {"ATTRIBUTES", {
             {"type", "star"},
-            {"mass", 10.0},
-            {"radius", 2.0},
+            {"mass", 1.0},
+            {"radius", 1.0},
             {"coordinates", {0.0, 0.0, 0.0}},
             {"GRAPHICS", {
               {"model", "sphere"},

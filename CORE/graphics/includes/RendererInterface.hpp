@@ -30,6 +30,7 @@ namespace Engine {
 		DrawingObject(	const std::string& ID,
 						const std::shared_ptr<PrimitiveObject>& primitive,
 						const std::shared_ptr<Material>& material,
+						const std::shared_ptr<Texture2D>& texture,
 						const std::shared_ptr<ShaderProgram>& shader_program,
 						const glm::vec3& position,
 						const glm::vec3& rotation,
@@ -49,6 +50,7 @@ namespace Engine {
 		std::string m_ID;
 		std::shared_ptr<PrimitiveObject> m_primitive; // expand later for non primitive meshes
 		std::shared_ptr<Material> m_material;
+		std::shared_ptr<Texture2D> m_texture2D;
 		std::shared_ptr<ShaderProgram> m_shader_program;
 		glm::vec3 m_position;
 		glm::vec3 m_rotation;
@@ -124,31 +126,18 @@ namespace Engine {
 
 		std::map<std::string, std::unique_ptr<DrawingObject>> m_drawing_objects; // {ID : DrawingObj}
 
-		// primitives
 		// shaders
 		std::shared_ptr<ShaderProgram> pSP_light_source; // light source shader
 		std::shared_ptr<ShaderProgram> pSP_basic; // basic shader with simple lightning
-
 		std::shared_ptr<ShaderProgram> pSP_line;
 
 		// materials
 		std::shared_ptr<Material> basic_material;
 		std::shared_ptr<Material> plane_material;
 
-		// textures example
-		std::shared_ptr<Texture2D> p_texture_moon;
-		std::shared_ptr<Texture2D> p_texture_quads;
-
-		// line primitive
-		//std::vector<std::shared_ptr<Line>> lines(N_spheres);
-
-		// cube primitive
+		// basic primitives
 		std::shared_ptr<Cube> p_cube;
-
-		// plane primitive
 		std::shared_ptr<Plane> p_plane;
-
-		// spheres
 		std::shared_ptr<Sphere> p_basic_sphere; // NOT a light source sphere
 		std::shared_ptr<Sphere> p_ls_sphere; // light source sphere
 	};
